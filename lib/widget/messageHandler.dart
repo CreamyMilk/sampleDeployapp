@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:sampledeployapp/widget/tickmark.dart';
 
 class MessageHandler extends StatefulWidget {
   @override
@@ -41,37 +41,16 @@ class _MessageHandlerState extends State<MessageHandler> {
           //Text(message['notification']['title']
           context: context,
           builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Center(
-                child: Text(
-                  message['notification']['title'],
+              title: AspectRatio(
+                aspectRatio: 1.5,
+                child: FlareActor(
+                  'assets/tick.flr',
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: 'go',
                 ),
               ),
-              subtitle: Center(child: Tick()),
-            ),
-            actions: [
-              FlatButton(
-                color: Colors.grey,
-                child: Text(
-                  "Share",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              FlatButton(
-                color: Colors.greenAccent,
-                child: Text(
-                  "Receipt",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
+              content: Text("Your Transaction was Succesful")),
         );
       },
       onResume: (Map<String, dynamic> message) async {
