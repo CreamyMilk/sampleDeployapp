@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_messaging: ^7.0.0
+  flutter_local_notifications: ^1.4.4+4
   flare_flutter: ^2.0.6
   provider:
   fluttertoast: ^7.1.0

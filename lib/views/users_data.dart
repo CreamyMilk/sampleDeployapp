@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sampledeployapp/providers/usersprovider.dart';
+import 'package:sampledeployapp/views/trans_view.dart';
 
 class UserTest extends StatelessWidget {
   final String appTitle;
@@ -11,6 +12,14 @@ class UserTest extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
         title: Text(appTitle),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.check),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => TransactionsView(),
+          ));
+        },
       ),
       body: ChangeNotifierProvider<MyTransactionprovider>(
         create: (context) => MyTransactionprovider(),

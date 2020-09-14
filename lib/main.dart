@@ -22,13 +22,16 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(appTitle),
+      appBar: AppBar(
+        title: Text(appTitle),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [MessageHandler(), Tick(), TransCard()],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [MessageHandler(), Tick(), TransCard()],
-          ),
-        ),
-      );
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.monetization_on),
+        onPressed: () {},
+      ));
 }
