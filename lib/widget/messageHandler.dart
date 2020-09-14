@@ -14,6 +14,17 @@ class MessageHandler extends StatefulWidget {
 
 //Outside any class
 Future<dynamic> myBackgroundHandler(Map<String, dynamic> message) {
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+    print(data);
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+    print(notification);
+  }
   return _MessageHandlerState()._showNotification(message);
 }
 
@@ -56,7 +67,6 @@ class _MessageHandlerState extends State<MessageHandler> {
     //_fcm.unsubscribeFromTopic("Teneant");
 
     _fcm.configure(
-      onBackgroundMessage: myBackgroundHandler,
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage :$message");
         //Disply Dialogue
@@ -76,6 +86,7 @@ class _MessageHandlerState extends State<MessageHandler> {
               content: Text("Your Transaction was Succesful")),
         );
       },
+      onBackgroundMessage: myBackgroundHandler,
       onResume: (Map<String, dynamic> message) async {
         print("onMessage :$message");
       },
