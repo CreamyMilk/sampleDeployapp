@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sampledeployapp/views/users_data.dart';
+//import 'package:sampledeployapp/views/users_data.dart';
 import 'package:sampledeployapp/widget/messageHandler.dart';
 import 'package:sampledeployapp/widget/tickmark.dart';
 import 'package:sampledeployapp/widget/transactionmessage.dart';
@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: appTitle,
-        home: UserTest(appTitle: appTitle),
+        home: MessageHandler(),
+        //home: UserTest(appTitle: appTitle),
       );
 }
 
