@@ -9,7 +9,7 @@ class OtpProvider extends ChangeNotifier {
 
   Future getOTP(context) async {
     final response = await http.post(
-      ("https://192.168.0.27:3000/" + "otp"),
+      ("http://192.168.0.27:3000/" + "otp"),
       headers: {
         "Accept": "application/json",
         "content-type": "application/json",

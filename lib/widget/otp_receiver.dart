@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:sampledeployapp/model/otpconfirmmodel.dart';
+import 'package:sampledeployapp/views/trans_view.dart';
+import 'package:sampledeployapp/views/users_data.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:http/http.dart' as http;
 
 class OtpReceiver extends StatefulWidget {
   OtpReceiver({Key key}) : super(key: key);
@@ -34,6 +40,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
                 print(val);
                 if (val.length == 4) {
                   print(val.runtimeType);
+                  confirmOTP("254599", val, context);
                   Navigator.of(context).pop();
                 }
               },
@@ -47,4 +54,37 @@ class _OtpReceiverState extends State<OtpReceiver> {
   void _listenforOTP() async {
     await SmsAutoFill().listenForCode;
   }
+}
+
+Future confirmOTP(mobile, code, context) async {
+  OtpVerify data;
+  final response = await http.post(
+    ("http://192.168.0.27:3000/" + "verify"),
+    headers: {
+      "Accept": "application/json",
+      "content-type": "application/json",
+    },
+    body: jsonEncode(
+      {
+        'phonenumber': mobile,
+        'code': code,
+      },
+    ),
+  );
+  var myjson = json.decode(response.body);
+  data = OtpVerify.fromJson(myjson);
+  print(data.message);
+  if (data.message == 0) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (c) => TransactionsView()),
+    );
+  } else {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (c) => UserTest(appTitle: "ok")),
+    );
+  }
+
+  //Navigator.of(context).pop();
 }
