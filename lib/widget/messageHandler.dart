@@ -39,9 +39,8 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   @override
   void initState() {
-    super.initState();
     var initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     //Localnotification
     // var initializationSettingsAndroid =
     //     AndroidInitializationSettings('app_icon');
@@ -51,6 +50,7 @@ class _MessageHandlerState extends State<MessageHandler> {
         InitializationSettings(initializationSettingsAndroid, null);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: selectLocalNotificationAction);
+    super.initState();
     //Ios Setup
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(
@@ -99,8 +99,13 @@ class _MessageHandlerState extends State<MessageHandler> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.teal,
-    );
+        color: Colors.teal,
+        child: FloatingActionButton(
+          child: Icon(Icons.access_alarm),
+          onPressed: () {
+            _MessageHandlerState()._showNotification({"me": "ok"});
+          },
+        ));
   }
 
   //LocalNotification
@@ -117,8 +122,8 @@ class _MessageHandlerState extends State<MessageHandler> {
         new NotificationDetails(androidPlatformChannelSpecifics, null);
     await flutterLocalNotificationsPlugin.show(
       0,
-      message['notification']['title'],
-      message['notification']['body'],
+      "Random Title", //message['notification']['title'],
+      "Random Body", //message['notification']['body'],
       platformChannelSpecifics,
       payload: 'Default_Sound',
     );
