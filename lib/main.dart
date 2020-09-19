@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sampledeployapp/widget/login_otp.dart';
+import 'package:sampledeployapp/views/maps_view.dart';
+//import 'package:sampledeployapp/widget/login_otp.dart';
 //import 'package:sampledeployapp/views/users_data.dart';
 import 'package:sampledeployapp/widget/messageHandler.dart';
 import 'package:sampledeployapp/widget/tickmark.dart';
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: appTitle,
-        home: LoginOTP(),
+        home: MapSample(),
+        //home: LoginOTP(),
         //home: UserTest(appTitle: appTitle),
       );
 }
