@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sampledeployapp/views/home_cards.dart';
+//import 'package:sampledeployapp/views/home_cards.dart';
 //import 'package:sampledeployapp/views/home_cards.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
+//import 'package:sampledeployapp/widget/get_contact.dart';
+import 'package:sampledeployapp/widget/login_otp.dart';
 //import 'package:sampledeployapp/views/maps_view.dart';
 //import 'package:sampledeployapp/widget/login_otp.dart';
 //import 'package:sampledeployapp/views/users_data.dart';
@@ -23,13 +25,13 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
         darkTheme: ThemeData(
-          primaryColor: Color(0xFF3EBACE),
-          accentColor: Color(0xFFD8ECF1),
+          primaryColor: Colors.blue,
+          accentColor: Colors.blueAccent,
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
-        home: HomeViewCardLayout(),
+        //home: ContactTest(),
         //home: MapSample(),
-        //home: LoginOTP(),
+        home: LoginOTP(),
         //home: UserTest(appTitle: appTitle),
       );
 }

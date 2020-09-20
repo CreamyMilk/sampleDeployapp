@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:sampledeployapp/model/otpresponse.dart';
 import 'package:sampledeployapp/widget/otp_receiver.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -36,8 +37,21 @@ class _LoginOTPState extends State<LoginOTP> {
               },
               controller: _testcontroller,
               decoration: InputDecoration(
-                hintText: ' PhoneNumber',
-                prefixText: "+254",
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.perm_contact_calendar),
+                  onPressed: () async {
+                    final PhoneContact contact =
+                        await FlutterContactPicker.pickPhoneContact();
+                    print(contact);
+                    setState(() {
+                      _testcontroller.text = contact.phoneNumber.number;
+                      mobile = contact.phoneNumber.number;
+                    });
+                  },
+                ),
+                hintText: 'PhoneNumber',
+                errorText: validatePassword(_testcontroller.text),
+                prefixText: "",
               ),
               keyboardType: TextInputType.numberWithOptions(),
             ),
@@ -83,4 +97,11 @@ Future getOTP(mobile, appsign) async {
   var myjson = json.decode(response.body);
   data = OtpResponse.fromJson(myjson);
   print(data.messageCode);
+}
+
+String validatePassword(String value) {
+  if (!(value.length > 9) && value.isNotEmpty) {
+    return "Mobile number should be in the format 07xxx";
+  }
+  return null;
 }
