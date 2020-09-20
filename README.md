@@ -42,3 +42,10 @@ Show Snack Bar on notification
     );
 
 ```
+
+
+
+```Dart
+_icons.asMap().entries.map(MapEntry map) =>_buildIcon(map.key),
+  ).toList())
+```

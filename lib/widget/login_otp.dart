@@ -36,7 +36,8 @@ class _LoginOTPState extends State<LoginOTP> {
               },
               controller: _testcontroller,
               decoration: InputDecoration(
-                hintText: '07XXXXXX',
+                hintText: ' PhoneNumber',
+                prefixText: "+254",
               ),
               keyboardType: TextInputType.numberWithOptions(),
             ),
