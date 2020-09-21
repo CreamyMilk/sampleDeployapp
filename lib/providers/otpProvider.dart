@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:sampledeployapp/model/otpresponse.dart';
 
 class OtpProvider extends ChangeNotifier {
-  OtpResponse data;
+  OtpResponse apidata;
 
   Future getOTP(context) async {
     final response = await http.post(
@@ -22,8 +22,8 @@ class OtpProvider extends ChangeNotifier {
       ),
     );
     var myjson = json.decode(response.body);
-    this.data = OtpResponse.fromJson(myjson);
+    this.apidata = OtpResponse.fromJson(myjson);
     notifyListeners();
-    return data;
+    return apidata;
   }
 }

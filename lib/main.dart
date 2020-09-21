@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sampledeployapp/views/home_cards.dart';
-import 'package:sampledeployapp/views/plant_screen.dart';
-import 'package:sampledeployapp/views/rent_card.dart';
-import 'package:sampledeployapp/views/repflectly_home.dart';
-//import 'package:sampledeployapp/views/home_cards.dart';
-//import 'package:sampledeployapp/views/home_cards.dart';
-//import 'package:sampledeployapp/views/payments_selections.dart';
-//import 'package:sampledeployapp/widget/get_contact.dart';
-import 'package:sampledeployapp/widget/login_otp.dart';
-//import 'package:sampledeployapp/views/maps_view.dart';
-//import 'package:sampledeployapp/widget/login_otp.dart';
-//import 'package:sampledeployapp/views/users_data.dart';
+import 'package:provider/provider.dart';
+import 'package:sampledeployapp/archive/login_otp.dart';
+import 'package:sampledeployapp/providers/mpesaTransPorvider.dart';
+import 'package:sampledeployapp/views/maps_view.dart';
 import 'package:sampledeployapp/widget/messageHandler.dart';
 import 'package:sampledeployapp/widget/tickmark.dart';
 import 'package:sampledeployapp/widget/transactionmessage.dart';
@@ -35,7 +27,14 @@ class MyApp extends StatelessWidget {
         ),
         //home: ContactTest(),
         //home: MapSample(),
-        home: SlideShow(),
+        home: MultiProvider(
+          providers: [
+            Provider<MpexaProvider>(
+              create: (_) => MpexaProvider(),
+            ),
+          ],
+          child: MapSample(),
+        ),
         //home: UserTest(appTitle: appTitle),
       );
 }

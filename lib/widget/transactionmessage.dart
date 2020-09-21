@@ -69,18 +69,6 @@ class _TransCardState extends State<TransCard> {
               DataCell(Text("Show Past Transactions")),
             ],
           ),
-          DataRow(
-            cells: [
-              DataCell(Text("Show Past Transactions")),
-              DataCell(Text("Show Past Transactions")),
-            ],
-          ),
-          DataRow(
-            cells: [
-              DataCell(Text("Show Past Transactions")),
-              DataCell(Text("Show Past Transactions")),
-            ],
-          ),
         ],
       ),
     );

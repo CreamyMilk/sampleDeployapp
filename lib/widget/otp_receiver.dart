@@ -39,7 +39,6 @@ class _OtpReceiverState extends State<OtpReceiver> {
               onCodeChanged: (val) {
                 print(val);
                 if (val.length == 4) {
-                  print(val.runtimeType);
                   confirmOTP("254599", val, context);
                   Navigator.of(context).pop();
                 }
