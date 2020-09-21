@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sampledeployapp/views/rent_card.dart';
 //import 'package:sampledeployapp/views/home_cards.dart';
 //import 'package:sampledeployapp/views/home_cards.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         //home: ContactTest(),
         //home: MapSample(),
-        home: LoginOTP(),
+        home: MainPage(appTitle: "ok"),
         //home: UserTest(appTitle: appTitle),
       );
 }

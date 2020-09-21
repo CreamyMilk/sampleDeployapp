@@ -98,14 +98,7 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.teal,
-        child: FloatingActionButton(
-          child: Icon(Icons.access_alarm),
-          onPressed: () {
-            _MessageHandlerState()._showNotification({"me": "ok"});
-          },
-        ));
+    return Container(color: Colors.teal, child: Icon(Icons.access_alarm));
   }
 
   //LocalNotification

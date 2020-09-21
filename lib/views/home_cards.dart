@@ -10,15 +10,17 @@ class HomeViewCardLayout extends StatefulWidget {
 }
 
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
+  String _username = "Jotham";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          padding: EdgeInsets.symmetric(vertical: 60.0),
           children: [
             Center(
               child: Text(
-                "Hello, Jotham",
+                "Hello, $_username",
                 style: TextStyle(
                   letterSpacing: 2.0,
                   fontSize: 30.0,
@@ -102,6 +104,17 @@ class _PageCardState extends State<PageCard> {
           )
         ],
       ),
+    );
+  }
+}
+
+class PlantCard extends StatelessWidget {
+  const PlantCard({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: null,
     );
   }
 }
