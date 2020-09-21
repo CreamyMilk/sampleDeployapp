@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sampledeployapp/views/home_cards.dart';
+import 'package:sampledeployapp/views/plant_screen.dart';
 import 'package:sampledeployapp/views/rent_card.dart';
+import 'package:sampledeployapp/views/repflectly_home.dart';
 //import 'package:sampledeployapp/views/home_cards.dart';
 //import 'package:sampledeployapp/views/home_cards.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
         ),
         //home: ContactTest(),
         //home: MapSample(),
-        home: MainPage(appTitle: "ok"),
+        home: SlideShow(),
         //home: UserTest(appTitle: appTitle),
       );
 }
