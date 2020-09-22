@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sampledeployapp/model/otpconfirmmodel.dart';
-import 'package:sampledeployapp/views/trans_view.dart';
+//import 'package:sampledeployapp/views/home_cards_layouts.dart';
+import 'package:sampledeployapp/views/rent_card.dart';
+//import 'package:sampledeployapp/views/trans_view.dart';
 import 'package:sampledeployapp/views/users_data.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:http/http.dart' as http;
@@ -76,7 +78,7 @@ Future confirmOTP(mobile, code, context) async {
   if (data.message == 0) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (c) => TransactionsView()),
+      MaterialPageRoute(builder: (c) => RentPaymentCard()),
     );
   } else {
     Navigator.push(

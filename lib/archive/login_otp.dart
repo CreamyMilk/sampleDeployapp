@@ -16,64 +16,91 @@ class LoginOTP extends StatefulWidget {
 class _LoginOTPState extends State<LoginOTP> {
   final TextEditingController _testcontroller = TextEditingController();
   String mobile = "";
+  bool term = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Enter Mobile number below"),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 50,
-              vertical: 10,
-            ),
-            child: TextField(
-              onChanged: (value) {
-                print(value);
-                setState(() {
-                  mobile = value;
-                });
-              },
-              controller: _testcontroller,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.perm_contact_calendar),
+      body: Center(
+        child: AnimatedContainer(
+          duration: Duration(seconds: 3),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          term = !term;
+                          value = !value;
+                        });
+                      },
+                      value: term,
+                    ),
+                    Text("I accept the Terms & Conditions"),
+                  ],
+                ),
+                Text("Enter Mobile number below"),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 10,
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      print(value);
+                      setState(() {
+                        mobile = value;
+                      });
+                    },
+                    controller: _testcontroller,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.perm_contact_calendar),
+                        onPressed: () async {
+                          final PhoneContact contact =
+                              await FlutterContactPicker.pickPhoneContact();
+                          print(contact);
+                          setState(() {
+                            _testcontroller.text = contact.phoneNumber.number;
+                            mobile = contact.phoneNumber.number;
+                          });
+                        },
+                      ),
+                      hintText: 'PhoneNumber',
+                      errorText: validatePassword(_testcontroller.text),
+                      prefixText: "",
+                    ),
+                    keyboardType: TextInputType.numberWithOptions(),
+                  ),
+                ),
+                MaterialButton(
+                  color: term ? Colors.blue : Colors.grey,
+                  child: Text(
+                    "Click me",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onPressed: () async {
-                    final PhoneContact contact =
-                        await FlutterContactPicker.pickPhoneContact();
-                    print(contact);
-                    setState(() {
-                      _testcontroller.text = contact.phoneNumber.number;
-                      mobile = contact.phoneNumber.number;
-                    });
+                    //send post request here
+                    if (term) {
+                      final appsignature = await SmsAutoFill().getAppSignature;
+                      getOTP(_testcontroller.text, appsignature);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (c) => OtpReceiver()),
+                      );
+                    } else {
+                      print("snack");
+                    }
                   },
                 ),
-                hintText: 'PhoneNumber',
-                errorText: validatePassword(_testcontroller.text),
-                prefixText: "",
-              ),
-              keyboardType: TextInputType.numberWithOptions(),
+                Text(mobile)
+              ],
             ),
           ),
-          MaterialButton(
-            color: Colors.blue,
-            child: Text(
-              "Click me",
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () async {
-              //send post request here
-              final appsignature = await SmsAutoFill().getAppSignature;
-              getOTP(_testcontroller.text, appsignature);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (c) => OtpReceiver()),
-              );
-            },
-          ),
-          Text(mobile)
-        ],
+        ),
       ),
     );
   }
@@ -105,3 +132,5 @@ String validatePassword(String value) {
   }
   return null;
 }
+
+void showSnack(context) {}
