@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sampledeployapp/providers/usersprovider.dart';
-import 'package:sampledeployapp/views/trans_view.dart';
+import 'package:sampledeployapp/archive/trans_view.dart';
 
 class UserTest extends StatelessWidget {
   final String appTitle;

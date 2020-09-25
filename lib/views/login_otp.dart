@@ -25,7 +25,7 @@ class _LoginOTPState extends State<LoginOTP> {
           duration: Duration(seconds: 3),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +42,10 @@ class _LoginOTPState extends State<LoginOTP> {
                     Text("I accept the Terms & Conditions"),
                   ],
                 ),
-                Text("Enter Mobile number below"),
+                SizedBox(
+                  height: 50,
+                ),
+                //Text("Enter Mobile number below"),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 50,
@@ -96,7 +99,6 @@ class _LoginOTPState extends State<LoginOTP> {
                     }
                   },
                 ),
-                Text(mobile)
               ],
             ),
           ),
@@ -109,7 +111,7 @@ class _LoginOTPState extends State<LoginOTP> {
 Future getOTP(mobile, appsign) async {
   OtpResponse data;
   final response = await http.post(
-    ("http://192.168.0.27:3000/" + "otp"),
+    ("http://googlesecureotp.herokuapp.com/" + "otp"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",
@@ -128,7 +130,7 @@ Future getOTP(mobile, appsign) async {
 
 String validatePassword(String value) {
   if (!(value.length > 9) && value.isNotEmpty) {
-    return "Mobile number should be in the format 07xxx";
+    return "Mobile number should be in the format 254xxx";
   }
   return null;
 }

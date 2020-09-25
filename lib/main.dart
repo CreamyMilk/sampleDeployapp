@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
               create: (_) => MpexaProvider(),
             ),
           ],
-          child: HomeViewCardLayout(),
+          child: MessageHandler(),
         ),
       );
 }

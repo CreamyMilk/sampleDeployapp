@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:sampledeployapp/views/login_otp.dart';
 
 class MessageHandler extends StatefulWidget {
   @override
@@ -57,7 +58,6 @@ class _MessageHandlerState extends State<MessageHandler> {
         IosNotificationSettings(),
       );
     } else {
-      //Android Setup
       _saveDeviceToken();
     }
 
@@ -65,7 +65,6 @@ class _MessageHandlerState extends State<MessageHandler> {
     _fcm.subscribeToTopic("tenant");
     //Unsubscribe to topic
     //_fcm.unsubscribeFromTopic("Teneant");
-
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage :$message");
@@ -98,7 +97,7 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.teal, child: Icon(Icons.access_alarm));
+    return LoginOTP();
   }
 
   //LocalNotification

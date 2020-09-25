@@ -16,12 +16,12 @@ class _PaymentsChoiceState extends State<PaymentsChoice> {
   }
 }
 
-class Pays extends StatefulWidget {
+class PaymentTile extends StatefulWidget {
   @override
-  _PaysState createState() => _PaysState();
+  _PaymentTileState createState() => _PaymentTileState();
 }
 
-class _PaysState extends State<Pays> {
+class _PaymentTileState extends State<PaymentTile> {
   bool _enabled = false;
   @override
   Widget build(BuildContext context) {

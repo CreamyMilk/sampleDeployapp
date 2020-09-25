@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:sampledeployapp/views/issues_card.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
 import 'package:sampledeployapp/views/rent_card.dart';
 //import 'package:sampledeployapp/widget/options_carosel.dart';
@@ -14,7 +15,8 @@ class HomeViewCardLayout extends StatefulWidget {
 
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   String _username = "Jotham";
-  List<String> myItems = [
+
+  List<String> transactions = [
     "Joe",
     "Wick",
     "Mal",
@@ -24,9 +26,49 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     "wewe",
     "kaku"
   ];
+  List<String> complains = ["Water", "Painting", "Gas"];
+  Widget _myAnimatedWidget;
+  ScrollController _cardsscrollcontroller;
+  bool fadeswitch;
+  _onUpdateScroll(ScrollMetrics metrics) {
+    //print((metrics.pixels / 340.00).round());
+
+    //setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fadeswitch = true;
+    _cardsscrollcontroller = ScrollController();
+    _myAnimatedWidget = CardListings(
+      myItems: transactions,
+      key: ValueKey(1),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            setState(() {
+              print(_cardsscrollcontroller.offset);
+              fadeswitch = !fadeswitch;
+              print(fadeswitch);
+              _myAnimatedWidget = fadeswitch == true
+                  ? CardListings(
+                      myItems: complains,
+                      key: ValueKey(2),
+                    )
+                  : CardListings(myItems: transactions, key: ValueKey(1));
+            });
+          }),
       appBar: AppBar(
         backgroundColor: Colors.black,
       ),
@@ -54,50 +96,42 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
               margin: EdgeInsets.all(16.0),
               //color: Colors.red[50],
               height: 300, //Cards Height
-              child: ListView(
-                padding: EdgeInsets.all(4.0),
-                scrollDirection: Axis.horizontal,
-                children: [
-                  PageCard(),
-                  SizedBox(width: 10),
-                  PageCard(),
-                  SizedBox(width: 10),
-                  PageCard(),
-                  SizedBox(width: 20),
-                ],
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  if (scrollNotification is ScrollStartNotification) {
+                    //print(scrollNotification.metrics);
+                  } else if (scrollNotification is ScrollUpdateNotification) {
+                    _onUpdateScroll(scrollNotification.metrics);
+                  } else if (scrollNotification is ScrollEndNotification) {
+                    //print(scrollNotification.metrics);
+                  }
+                  return;
+                },
+                child: ListView(
+                  controller: _cardsscrollcontroller,
+                  padding: EdgeInsets.all(4.0),
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    PageCard(
+                      childwidget: RentPaymentCard(),
+                    ),
+                    SizedBox(width: 10),
+                    PageCard(
+                      childwidget: IssuesCard(),
+                    ),
+                    SizedBox(width: 10),
+                    PageCard(
+                      childwidget: RentPaymentCard(),
+                    ),
+                    SizedBox(width: 20),
+                  ],
+                ),
               ),
             ),
             Container(
-              color: Colors.white38,
-              height: 400,
-              child: ReorderableListView(
-                onReorder: (oldIndex, newIndex) {
-                  print(oldIndex);
-                  print(newIndex);
-                  setState(() {
-                    if (newIndex > oldIndex) {
-                      newIndex -= 1;
-                    }
-                    final item = myItems.removeAt(oldIndex);
-                    myItems.insert(newIndex, item);
-                  });
-                },
-                children: [
-                  for (final item in myItems)
-                    ListTile(
-                      key: ValueKey(item),
-                      title: Text(item),
-                      subtitle: Text("${Timeline.now}"),
-                      leading: Icon(Icons.ac_unit),
-                      trailing: Text("-Ksh.3,000",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold)),
-                      focusColor: Colors.red,
-                      onTap: () {},
-                    ),
-                ],
-              ),
-            )
+                child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    child: _myAnimatedWidget))
           ],
         ),
       ),
@@ -105,14 +139,59 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   }
 }
 
-class PageCard extends StatefulWidget {
-  PageCard({Key key}) : super(key: key);
+class CardListings extends StatefulWidget {
+  const CardListings({
+    Key key,
+    @required this.myItems,
+  }) : super(key: key);
+
+  final List<String> myItems;
 
   @override
-  _PageCardState createState() => _PageCardState();
+  _CardListingsState createState() => _CardListingsState();
 }
 
-class _PageCardState extends State<PageCard> {
+class _CardListingsState extends State<CardListings> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white38,
+      height: 400,
+      child: ReorderableListView(
+        onReorder: (oldIndex, newIndex) {
+          print(oldIndex);
+          print(newIndex);
+          setState(() {
+            if (newIndex > oldIndex) {
+              newIndex -= 1;
+            }
+            final item = widget.myItems.removeAt(oldIndex);
+            widget.myItems.insert(newIndex, item);
+          });
+        },
+        children: [
+          for (final item in widget.myItems)
+            ListTile(
+              key: ValueKey(item),
+              title: Text(item),
+              subtitle: Text("${Timeline.now}"),
+              leading: Icon(Icons.ac_unit),
+              trailing: Text("-Ksh.3,000",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              focusColor: Colors.red,
+              onTap: () {},
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageCard extends StatelessWidget {
+  final Widget childwidget;
+
+  const PageCard({this.childwidget});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -123,17 +202,6 @@ class _PageCardState extends State<PageCard> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: RentPaymentCard());
-  }
-}
-
-class PlantCard extends StatelessWidget {
-  const PlantCard({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: null,
-    );
+        child: this.childwidget);
   }
 }

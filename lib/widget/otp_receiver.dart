@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sampledeployapp/model/otpconfirmmodel.dart';
-//import 'package:sampledeployapp/views/home_cards_layouts.dart';
-import 'package:sampledeployapp/views/rent_card.dart';
-//import 'package:sampledeployapp/views/trans_view.dart';
-import 'package:sampledeployapp/views/users_data.dart';
+import 'package:sampledeployapp/views/home_cards_layouts.dart';
+
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,7 +40,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
                 print(val);
                 if (val.length == 4) {
                   confirmOTP("254599", val, context);
-                  Navigator.of(context).pop();
+                  //Navigator.of(context).pop();
                 }
               },
             ),
@@ -60,7 +58,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
 Future confirmOTP(mobile, code, context) async {
   OtpVerify data;
   final response = await http.post(
-    ("http://192.168.0.27:3000/" + "verify"),
+    ("http://googlesecureotp.herokuapp.com/" + "verify"),
     headers: {
       "Accept": "application/json",
       "content-type": "application/json",
@@ -78,12 +76,12 @@ Future confirmOTP(mobile, code, context) async {
   if (data.message == 0) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (c) => RentPaymentCard()),
+      MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
     );
   } else {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (c) => UserTest(appTitle: "ok")),
+      MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
     );
   }
 
