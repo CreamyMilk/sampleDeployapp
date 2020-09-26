@@ -37,24 +37,3 @@ class MyApp extends StatelessWidget {
             ),
       );
 }
-
-class MainPage extends StatelessWidget {
-  final String appTitle;
-
-  const MainPage({this.appTitle});
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: Text(appTitle),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [MessageHandler(), Tick(), TransCard()],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.monetization_on),
-        onPressed: () {},
-      ));
-}

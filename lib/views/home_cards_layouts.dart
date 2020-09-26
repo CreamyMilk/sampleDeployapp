@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:sampledeployapp/views/issues_card.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
 import 'package:sampledeployapp/views/rent_card.dart';
+import 'package:sampledeployapp/views/services_card.dart';
 //import 'package:sampledeployapp/widget/options_carosel.dart';
 
 class HomeViewCardLayout extends StatefulWidget {
@@ -52,6 +53,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: Icon(
@@ -127,7 +129,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     ),
                     SizedBox(width: 10),
                     PageCard(
-                      childwidget: RentPaymentCard(),
+                      childwidget: ServiceCard(),
                     ),
                     SizedBox(width: 20),
                   ],

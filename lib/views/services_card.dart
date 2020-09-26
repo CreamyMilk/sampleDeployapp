@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sampledeployapp/archive/users_data.dart';
+import 'package:sampledeployapp/views/maps_view.dart';
 
 class ServiceCard extends StatefulWidget {
   ServiceCard({Key key}) : super(key: key);
@@ -10,7 +11,7 @@ class ServiceCard extends StatefulWidget {
 
 class _ServiceCardState extends State<ServiceCard> {
   String _houseNumber = "A2";
-  int _compains = 4;
+  int _compains = 1;
   bool _testvar = true;
   List<String> option = ["Maps", "History"];
   @override
@@ -31,9 +32,11 @@ class _ServiceCardState extends State<ServiceCard> {
                     fontWeight: FontWeight.w300,
                     color: Colors.black),
               ),
-              Container(child: Text("Issues")),
+              Container(child: Text("Services")),
               PopupMenuButton(
-                  onSelected: choiceAction,
+                  onSelected: (value) {
+                    choiceAction(value, context);
+                  },
                   icon: Icon(Icons.more_horiz),
                   itemBuilder: (BuildContext context) {
                     return option.map((String choice) {
@@ -53,7 +56,7 @@ class _ServiceCardState extends State<ServiceCard> {
             ),
           ),
           Text(
-            "complains",
+            "Service Requests",
             style: TextStyle(
               fontWeight: FontWeight.w200,
               fontSize: 20.0,
@@ -72,22 +75,12 @@ class _ServiceCardState extends State<ServiceCard> {
                   color: _testvar ? Colors.white : Colors.grey,
                   child: Row(
                     children: [
-                      Text("Past Complains",
+                      Text("Rate Service",
                           style: TextStyle(color: Colors.black)),
                     ],
                   ),
                   onPressed: () {
-                    showDialog(
-                      //Text(message['notification']['title']
-                      context: context,
-                      builder: (context) => AlertDialog(
-                          title: Text("Payment intent sent "),
-                          content: Text("\n to 0797678252")),
-                    );
-                    setState(() {
-                      _testvar = !_testvar;
-                    });
-                    print("STK push sent");
+                    navigateToMap(context);
                   },
                 ),
               ),
@@ -100,21 +93,15 @@ class _ServiceCardState extends State<ServiceCard> {
                   color: _testvar ? Colors.black : Colors.grey,
                   child: Row(
                     children: [
-                      Text("Report !", style: TextStyle(color: Colors.white)),
+                      Text("Go to Map ", style: TextStyle(color: Colors.white)),
+                      Icon(
+                        Icons.zoom_out_map,
+                        color: Colors.white,
+                      )
                     ],
                   ),
                   onPressed: () {
-                    showDialog(
-                      //Text(message['notification']['title']
-                      context: context,
-                      builder: (context) => AlertDialog(
-                          title: Text("Payment intent sent "),
-                          content: Text("\n to 0797678252")),
-                    );
-                    setState(() {
-                      _testvar = !_testvar;
-                    });
-                    print("STK push sent");
+                    navigateToMap(context);
                   },
                 ),
               ),
@@ -126,10 +113,18 @@ class _ServiceCardState extends State<ServiceCard> {
   }
 }
 
-void choiceAction(String choice) {
+void choiceAction(String choice, BuildContext context) {
   print(choice);
   Navigator.push(
-    null,
-    MaterialPageRoute(builder: (_) => UserTest(appTitle: "ok")),
+    context,
+    MaterialPageRoute(builder: (_) => UserTest(appTitle: choice)),
+  );
+}
+
+void navigateToMap(BuildContext context) {
+  print("Going to map");
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) => MapSample()),
   );
 }

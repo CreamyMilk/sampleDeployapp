@@ -108,66 +108,95 @@ void _settingModalBottomSheet(context) {
             topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
       ),
       context: context,
-      builder: (BuildContext bc) {
+      builder: (BuildContext context) {
         return SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
-            decoration: BoxDecoration(),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.arrow_downward),
-                    Text("RentPayment"),
-                    SizedBox()
-                  ],
-                ),
-                Divider(),
-                SizedBox(height: 5),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Enter Amount",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TextField(
-                    controller: _amountcontroller,
-                    decoration: InputDecoration(
-                      prefixText: "&",
-                      hintText: "Enter Amount",
-                      border: OutlineInputBorder(gapPadding: 1.0),
-                    )),
-                Text("Select payment method"),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    PaymentTile(),
-                    SizedBox(height: 1,),
-                    PaymentTile(),
-                  ],
-                ),
-                Text("Running low on Cash?"),
-                SelectContactField(),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    child: MaterialButton(
-                      minWidth: MediaQuery.of(context).size.width * .90,
-                      onPressed: () {
-                        print("sdsdfdsf");
-                      },
-                      color: Colors.black,
-                      child: Text(
-                        "Pay 30000",
-                        style: TextStyle(color: Colors.white),
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
+              decoration: BoxDecoration(),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(Icons.arrow_downward),
+                      Text(
+                        "Rent Payment",
+                        style: TextStyle(fontWeight: FontWeight.w700),
                       ),
-                      autofocus: true,
+                      SizedBox()
+                    ],
+                  ),
+                  Divider(),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Amount in Ksh",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                )
-              ],
+                  TextField(
+                      controller: _amountcontroller,
+                      decoration: InputDecoration(
+                        prefixText: "",
+                        hintText: "Enter Amount",
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Select payment method",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      PaymentTile(),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      PaymentTile(),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Running low on Cash?",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SelectContactField(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      child: MaterialButton(
+                        minWidth: MediaQuery.of(context).size.width * .90,
+                        onPressed: () {
+                          print("sdsdfdsf");
+                        },
+                        color: Colors.black,
+                        child: Text(
+                          "Pay ${_amountcontroller.text}",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        autofocus: true,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );
