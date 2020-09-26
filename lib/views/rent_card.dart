@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:sampledeployapp/archive/users_data.dart';
+import 'package:sampledeployapp/widget/payments_selections.dart';
 
 class RentPaymentCard extends StatefulWidget {
   RentPaymentCard({Key key}) : super(key: key);
@@ -74,16 +76,17 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                     ],
                   ),
                   onPressed: () {
-                    showDialog(
-                      //Text(message['notification']['title']
-                      context: context,
-                      builder: (context) => AlertDialog(
-                          title: Text("Payment intent sent "),
-                          content: Text("\n to 0797678252")),
-                    );
-                    setState(() {
-                      _testvar = !_testvar;
-                    });
+                    _settingModalBottomSheet(context);
+                    // showDialog(
+                    //   //Text(message['notification']['title']
+                    //   context: context,
+                    //   builder: (context) => AlertDialog(
+                    //       title: Text("Payment intent sent "),
+                    //       content: Text("\n to 0797678252")),
+                    // );
+                    // setState(() {
+                    //   _testvar = !_testvar;
+                    // });                alignment: Alignment.bottomCenter,
                     print("STK push sent");
                   },
                 ),
@@ -96,10 +99,134 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   }
 }
 
+void _settingModalBottomSheet(context) {
+  final TextEditingController _amountcontroller = TextEditingController();
+  showModalBottomSheet(
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
+      ),
+      context: context,
+      builder: (BuildContext bc) {
+        return SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(top: 5, left: 15, right: 15),
+            decoration: BoxDecoration(),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(Icons.arrow_downward),
+                    Text("RentPayment"),
+                    SizedBox()
+                  ],
+                ),
+                Divider(),
+                SizedBox(height: 5),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Enter Amount",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                TextField(
+                    controller: _amountcontroller,
+                    decoration: InputDecoration(
+                      prefixText: "&",
+                      hintText: "Enter Amount",
+                      border: OutlineInputBorder(gapPadding: 1.0),
+                    )),
+                Text("Select payment method"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PaymentTile(),
+                    SizedBox(height: 1,),
+                    PaymentTile(),
+                  ],
+                ),
+                Text("Running low on Cash?"),
+                SelectContactField(),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    child: MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width * .90,
+                      onPressed: () {
+                        print("sdsdfdsf");
+                      },
+                      color: Colors.black,
+                      child: Text(
+                        "Pay 30000",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      autofocus: true,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
+}
+
 void choiceAction(String choice) {
   print(choice);
   Navigator.push(
     null,
     MaterialPageRoute(builder: (_) => UserTest(appTitle: "ok")),
   );
+}
+
+class SelectContactField extends StatefulWidget {
+  @override
+  _SelectContactFieldState createState() => _SelectContactFieldState();
+}
+
+class _SelectContactFieldState extends State<SelectContactField> {
+  final TextEditingController _testcontroller = TextEditingController();
+  String mobile;
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      autofocus: true,
+      onChanged: (value) {
+        print(value);
+        setState(() {
+          mobile = value;
+        });
+      },
+      controller: _testcontroller,
+      decoration: InputDecoration(
+        suffixIcon: IconButton(
+          icon: Icon(Icons.perm_contact_calendar),
+          onPressed: () async {
+            final PhoneContact contact =
+                await FlutterContactPicker.pickPhoneContact();
+            print(contact);
+            setState(() {
+              _testcontroller.text = contact.phoneNumber.number;
+              mobile = contact.phoneNumber.number;
+            });
+          },
+        ),
+        border: OutlineInputBorder(gapPadding: 0.5),
+        hintText: 'Ask somone else to pay',
+        errorText: validatePassword(_testcontroller.text),
+        prefixText: "",
+      ),
+      keyboardType: TextInputType.numberWithOptions(),
+    );
+  }
+}
+
+String validatePassword(String value) {
+  if (!(value.length > 9) && value.isNotEmpty) {
+    return "Mobile number should be in the format 254xxx";
+  }
+  return null;
 }

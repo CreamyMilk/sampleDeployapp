@@ -28,14 +28,13 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.blueAccent,
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
-        home: MultiProvider(
-          providers: [
-            Provider<MpexaProvider>(
-              create: (_) => MpexaProvider(),
+        home: MultiProvider(providers: [
+          Provider<MpexaProvider>(
+            create: (_) => MpexaProvider(),
+          ),
+        ], child: HomeViewCardLayout()
+            //child: MessageHandler(),
             ),
-          ],
-          child: MessageHandler(),
-        ),
       );
 }
 

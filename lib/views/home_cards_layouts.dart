@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:sampledeployapp/views/issues_card.dart';
@@ -17,6 +18,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   String _username = "Jotham";
 
   List<String> transactions = [
+    "Transactions",
     "Joe",
     "Wick",
     "Mal",
@@ -26,7 +28,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     "wewe",
     "kaku"
   ];
-  List<String> complains = ["Water", "Painting", "Gas"];
+  List<String> complains = ["Expenses", "Water", "Painting", "Gas"];
   Widget _myAnimatedWidget;
   ScrollController _cardsscrollcontroller;
   bool fadeswitch;
@@ -50,6 +52,13 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        leading: Icon(
+          Icons.atm,
+          color: Colors.white,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           child: Icon(
@@ -69,9 +78,6 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                   : CardListings(myItems: transactions, key: ValueKey(1));
             });
           }),
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-      ),
       body: SafeArea(
         child: ListView(
           children: [
@@ -158,6 +164,23 @@ class _CardListingsState extends State<CardListings> {
       color: Colors.white38,
       height: 400,
       child: ReorderableListView(
+        header: Row(
+          children: [
+            SizedBox(
+              height: 29,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                widget.myItems[0],
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                    letterSpacing: 5.0),
+              ),
+            ),
+          ],
+        ),
         onReorder: (oldIndex, newIndex) {
           print(oldIndex);
           print(newIndex);
@@ -170,13 +193,13 @@ class _CardListingsState extends State<CardListings> {
           });
         },
         children: [
-          for (final item in widget.myItems)
+          for (final item in widget.myItems.sublist(1))
             ListTile(
               key: ValueKey(item),
               title: Text(item),
               subtitle: Text("${Timeline.now}"),
               leading: Icon(Icons.ac_unit),
-              trailing: Text("-Ksh.3,000",
+              trailing: Text("Ksh.${Random().nextInt(10000).toString()}",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
               focusColor: Colors.red,
               onTap: () {},
