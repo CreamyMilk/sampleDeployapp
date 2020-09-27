@@ -41,6 +41,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open.</string>
 	<key>NSContactsUsageDescription</key>  
 	<string>Need to get contact from phonebook.</string>  
 	<key>io.flutter.embedded_views_preview</key>

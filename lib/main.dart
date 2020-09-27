@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-//import 'package:sampledeployapp/archive/login_otp.dart';
 import 'package:sampledeployapp/providers/mpesaTransPorvider.dart';
-import 'package:sampledeployapp/views/home_cards_layouts.dart';
-//import 'package:sampledeployapp/views/rent_card.dart';
-//import 'package:sampledeployapp/views/repflectly_home.dart';
-//import 'package:sampledeployapp/views/maps_view.dart';
-import 'package:sampledeployapp/widget/messageHandler.dart';
-import 'package:sampledeployapp/widget/tickmark.dart';
-import 'package:sampledeployapp/widget/transactionmessage.dart';
+import 'package:sampledeployapp/services/geolocation_service.dart';
+import 'package:sampledeployapp/views/login_otp.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   final String appTitle = 'Firebase messaging';
+  final GeolocatorService geoService = GeolocatorService();
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: appTitle,
@@ -29,10 +25,12 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
         home: MultiProvider(providers: [
+          FutureProvider<Position>(
+              create: (context) => geoService.getInitialLocation()),
           Provider<MpexaProvider>(
             create: (_) => MpexaProvider(),
           ),
-        ], child: HomeViewCardLayout()
+        ], child: LoginOTP()
             //child: MessageHandler(),
             ),
       );

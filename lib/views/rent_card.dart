@@ -140,6 +140,7 @@ void _settingModalBottomSheet(context) {
                   ),
                   TextField(
                       controller: _amountcontroller,
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         prefixText: "",
                         hintText: "Enter Amount",
@@ -185,6 +186,7 @@ void _settingModalBottomSheet(context) {
                         minWidth: MediaQuery.of(context).size.width * .90,
                         onPressed: () {
                           print("sdsdfdsf");
+                          Navigator.of(context).pop();
                         },
                         color: Colors.black,
                         child: Text(
