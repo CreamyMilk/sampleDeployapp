@@ -3,7 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:sampledeployapp/providers/mpesaTransPorvider.dart';
 import 'package:sampledeployapp/services/geolocation_service.dart';
-import 'package:sampledeployapp/views/login_otp.dart';
+//import 'package:sampledeployapp/views/login_otp.dart';
+import 'package:sampledeployapp/widget/messageHandler.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           Provider<MpexaProvider>(
             create: (_) => MpexaProvider(),
           ),
-        ], child: LoginOTP()
+        ], child: MessageHandler()
             //child: MessageHandler(),
             ),
       );

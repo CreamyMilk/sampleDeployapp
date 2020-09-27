@@ -2,6 +2,9 @@ import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:sampledeployapp/services/geolocation_service.dart';
 import 'package:sampledeployapp/views/issues_card.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
 import 'package:sampledeployapp/views/rent_card.dart';
@@ -52,95 +55,102 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        leading: Icon(
-          Icons.atm,
-          color: Colors.white,
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
+    final GeolocatorService geoService = GeolocatorService();
+    return MultiProvider(
+      providers: [
+        FutureProvider<Position>(
+            create: (context) => geoService.getInitialLocation()),
+      ],
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
           backgroundColor: Colors.black,
-          child: Icon(
-            Icons.add,
+          leading: Icon(
+            Icons.atm,
             color: Colors.white,
           ),
-          onPressed: () {
-            setState(() {
-              print(_cardsscrollcontroller.offset);
-              fadeswitch = !fadeswitch;
-              print(fadeswitch);
-              _myAnimatedWidget = fadeswitch == true
-                  ? CardListings(
-                      myItems: complains,
-                      key: ValueKey(2),
-                    )
-                  : CardListings(myItems: transactions, key: ValueKey(1));
-            });
-          }),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 10,
+        ),
+        floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.black,
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
             ),
-            Center(
-              child: Container(
-                child: Text(
-                  "Hello, $_username",
-                  style: TextStyle(
-                    letterSpacing: 2.0,
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w100,
+            onPressed: () {
+              setState(() {
+                print(_cardsscrollcontroller.offset);
+                fadeswitch = !fadeswitch;
+                print(fadeswitch);
+                _myAnimatedWidget = fadeswitch == true
+                    ? CardListings(
+                        myItems: complains,
+                        key: ValueKey(2),
+                      )
+                    : CardListings(myItems: transactions, key: ValueKey(1));
+              });
+            }),
+        body: SafeArea(
+          child: ListView(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Container(
+                  child: Text(
+                    "Hello, $_username",
+                    style: TextStyle(
+                      letterSpacing: 2.0,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w100,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 20.0),
-            Container(
-              //Slider area
-              margin: EdgeInsets.all(16.0),
-              //color: Colors.red[50],
-              height: 300, //Cards Height
-              child: NotificationListener<ScrollNotification>(
-                onNotification: (scrollNotification) {
-                  if (scrollNotification is ScrollStartNotification) {
-                    //print(scrollNotification.metrics);
-                  } else if (scrollNotification is ScrollUpdateNotification) {
-                    _onUpdateScroll(scrollNotification.metrics);
-                  } else if (scrollNotification is ScrollEndNotification) {
-                    //print(scrollNotification.metrics);
-                  }
-                  return;
-                },
-                child: ListView(
-                  controller: _cardsscrollcontroller,
-                  padding: EdgeInsets.all(4.0),
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    PageCard(
-                      childwidget: RentPaymentCard(),
-                    ),
-                    SizedBox(width: 10),
-                    PageCard(
-                      childwidget: IssuesCard(),
-                    ),
-                    SizedBox(width: 10),
-                    PageCard(
-                      childwidget: ServiceCard(),
-                    ),
-                    SizedBox(width: 20),
-                  ],
+              SizedBox(height: 20.0),
+              Container(
+                //Slider area
+                margin: EdgeInsets.all(16.0),
+                //color: Colors.red[50],
+                height: 300, //Cards Height
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (scrollNotification) {
+                    if (scrollNotification is ScrollStartNotification) {
+                      //print(scrollNotification.metrics);
+                    } else if (scrollNotification is ScrollUpdateNotification) {
+                      _onUpdateScroll(scrollNotification.metrics);
+                    } else if (scrollNotification is ScrollEndNotification) {
+                      //print(scrollNotification.metrics);
+                    }
+                    return;
+                  },
+                  child: ListView(
+                    controller: _cardsscrollcontroller,
+                    padding: EdgeInsets.all(4.0),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      PageCard(
+                        childwidget: RentPaymentCard(),
+                      ),
+                      SizedBox(width: 10),
+                      PageCard(
+                        childwidget: IssuesCard(),
+                      ),
+                      SizedBox(width: 10),
+                      PageCard(
+                        childwidget: ServiceCard(),
+                      ),
+                      SizedBox(width: 20),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Container(
-                child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    child: _myAnimatedWidget))
-          ],
+              Container(
+                  child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      child: _myAnimatedWidget))
+            ],
+          ),
         ),
       ),
     );

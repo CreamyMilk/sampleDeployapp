@@ -14,6 +14,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
   String _month = "January";
   int _rentDue = 20000;
   bool _testvar = true;
+  bool _rentstaus = true;
   List<String> option = ["All Transaction", "Recipts"];
   @override
   Widget build(BuildContext context) {
@@ -58,10 +59,24 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Payment will be done using \nMpesa express to \nMobile:0797678252",
-                style: TextStyle(color: Colors.grey, fontSize: 10.0),
-                maxLines: 3,
+              Column(
+                children: [
+                  Text(
+                    "RentStatus",
+                    style: TextStyle(color: Colors.grey, fontSize: 10.0),
+                  ),
+                  MaterialButton(
+                      color: _rentstaus ? Colors.greenAccent : Colors.redAccent,
+                      onPressed: () {
+                        setState(() {
+                          _rentstaus = !_rentstaus;
+                        });
+                      },
+                      child: Text(
+                        _rentstaus ? "Paid" : "Due",
+                        style: TextStyle(color: Colors.white),
+                      ))
+                ],
               ),
               AnimatedContainer(
                 duration: Duration(seconds: 100),
