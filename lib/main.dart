@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sampledeployapp/providers/mpesaTransPorvider.dart';
 import 'package:sampledeployapp/services/geolocation_service.dart';
 //import 'package:sampledeployapp/views/login_otp.dart';
-import 'package:sampledeployapp/widget/messageHandler.dart';
+import 'package:sampledeployapp/views/messageHandler.dart';
 
 void main() => runApp(MyApp());
 
