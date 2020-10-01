@@ -15,10 +15,13 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-
-Thget is used to show how like pregress indivators custom poups
-bottom pay drawer
-
+Services to be created
+- Authentication service
+  When one send us the OTP when we get back the user-data we store it in shared prefernces
+  We can used Token based auth where when user need data they just send a get request matchingg what they need JWT
+  On next login if you have a token just get user details and skip login
+  If not login
+  
 
 Show Snack Bar on notification 
 
