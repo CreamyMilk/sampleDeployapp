@@ -41,10 +41,7 @@ class _MessageHandlerState extends State<MessageHandler> {
   }
 
   @override
-  void initState() async {
-    final prefs = await SharedPreferences.getInstance();
-    userToken = prefs.getString('user_token') ?? "";
-
+  void initState() {
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     //Localnotification
@@ -102,15 +99,16 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   @override
   Widget build(BuildContext context) {
-    return userToken == "" ? LoginOTP() : HomeViewCardLayout();
+    _getStartUpPage(context);
+    return Container(child: null);
   }
 
   //LocalNotification
   Future _showNotification(Map<String, dynamic> message) async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-      'channel id',
-      'channel name',
-      'channel desc',
+      '23232',
+      'me',
+      'New',
       importance: Importance.Max,
       priority: Priority.High,
     );
@@ -148,11 +146,26 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   _sendTokenHTTP(final data) async {
     return http.post(
-      'https://jsonplaceholder.typicode.com/albums',
+      "http://googlesecureotp.herokuapp.com/verify",
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(data),
     );
   }
+}
+
+_getStartUpPage(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  final userToken = prefs.getString('user_token') ?? "";
+  print("UserToken ilikuwa $userToken");
+  userToken == "0"
+      ? Navigator.push(
+          context,
+          MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
+        )
+      : Navigator.push(
+          context,
+          MaterialPageRoute(builder: (c) => LoginOTP()),
+        );
 }

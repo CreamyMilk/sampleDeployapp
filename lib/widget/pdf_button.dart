@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:open_file/open_file.dart' as open_file;
+import 'package:flutter/services.dart' show rootBundle;
 
 /// Represents the PDF widget class.
 
@@ -19,19 +21,34 @@ class CreatePdfStatefulWidget extends StatefulWidget {
 }
 
 class _CreatePdfState extends State<CreatePdfStatefulWidget> {
+  ByteData signData;
+  @override
+  void initState() {
+    // TODO: implement initState
+    rootBundle
+        .load('assets/sign.png')
+        .then((data) => setState(() => this.signData = data));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      child: const Text(
-        'Generate PDF',
-        style: TextStyle(color: Colors.white),
+    return MaterialButton(
+      child: Row(
+        children: [
+          Icon(Icons.receipt, color: Colors.white),
+          Text(
+            " Receipt",
+            style: TextStyle(color: Colors.white),
+          )
+        ],
       ),
       color: Colors.blue,
-      onPressed: generateInvoice,
+      onPressed: generatereceipt,
     );
   }
 
-  Future<void> generateInvoice() async {
+  Future<void> generatereceipt() async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
     //Add page to the PDF
@@ -48,7 +65,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     final PdfLayoutResult result = drawHeader(page, pageSize, grid);
     //Draw grid
     drawGrid(page, grid, result);
-    //Add invoice footer
+    //Add receipt footer
     drawFooter(page, pageSize);
     //Save and launch the document
     final List<int> bytes = document.save();
@@ -58,13 +75,13 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     final Directory directory =
         await path_provider.getApplicationDocumentsDirectory();
     final String path = directory.path;
-    final File file = File('$path/output.pdf');
+    final File file = File('$path/receipt.pdf');
     await file.writeAsBytes(bytes);
     //Launch the file (used open_file package)
-    await open_file.OpenFile.open('$path/output.pdf');
+    await open_file.OpenFile.open('$path/receipt.pdf');
   }
 
-  //Draws the invoice header
+  //Draws the receipt header
   PdfLayoutResult drawHeader(PdfPage page, Size pageSize, PdfGrid grid) {
     //Draw rectangle
     page.graphics.drawRectangle(
@@ -72,7 +89,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
         bounds: Rect.fromLTWH(0, 0, pageSize.width - 115, 90));
     //Draw string
     page.graphics.drawString(
-        'INVOICE', PdfStandardFont(PdfFontFamily.helvetica, 30),
+        'Receipt', PdfStandardFont(PdfFontFamily.helvetica, 30),
         brush: PdfBrushes.white,
         bounds: Rect.fromLTWH(25, 0, pageSize.width - 115, 90),
         format: PdfStringFormat(lineAlignment: PdfVerticalAlignment.middle));
@@ -99,14 +116,14 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
             lineAlignment: PdfVerticalAlignment.bottom));
     //Create data foramt and convert it to text.
     final DateFormat format = DateFormat.yMMMMd('en_US');
-    final String invoiceNumber = 'Invoice Number: 2058557939\r\n\r\nDate: ' +
+    final String receiptNumber = 'Receipt Number: 2058557939\r\n\r\nDate: ' +
         format.format(DateTime.now());
-    final Size contentSize = contentFont.measureString(invoiceNumber);
-    const String address = '''Bill To: \r\n\r\nAbraham Swearegin, 
-        \r\n\r\nUnited States, California, San Mateo, 
+    final Size contentSize = contentFont.measureString(receiptNumber);
+    const String address = '''Bill To: \r\n\r\nOliver Ndegwa, 
+        \r\n\r\nKahawa Sukari, Kenya, San Mateo, 
         \r\n\r\n9920 BridgePointe Parkway, \r\n\r\n9365550136''';
 
-    PdfTextElement(text: invoiceNumber, font: contentFont).draw(
+    PdfTextElement(text: receiptNumber, font: contentFont).draw(
         page: page,
         bounds: Rect.fromLTWH(pageSize.width - (contentSize.width + 30), 120,
             contentSize.width + 30, pageSize.height - 120));
@@ -151,8 +168,8 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
             totalPriceCellBounds.height));
   }
 
-  //Draw the invoice footer data.
-  void drawFooter(PdfPage page, Size pageSize) {
+  //Draw the receipt footer data.
+  void drawFooter(PdfPage page, Size pageSize) async {
     final PdfPen linePen =
         PdfPen(PdfColor(142, 170, 219, 255), dashStyle: PdfDashStyle.custom);
     linePen.dashPattern = <double>[3, 3];
@@ -165,6 +182,10 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
          TX 78721\r\n\r\nAny Questions? support@adventure-works.com''';
 
     //Added 30 as a margin for the layout
+    //Drawing Signature
+
+    final PdfBitmap image = PdfBitmap(signData.buffer.asUint8List());
+    page.graphics.drawImage(image, const Rect.fromLTWH(350, 500, 150, 150));
     page.graphics.drawString(
         footerContent, PdfStandardFont(PdfFontFamily.helvetica, 9),
         format: PdfStringFormat(alignment: PdfTextAlignment.right),
@@ -182,9 +203,9 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     //Set style
     headerRow.style.backgroundBrush = PdfSolidBrush(PdfColor(68, 114, 196));
     headerRow.style.textBrush = PdfBrushes.white;
-    headerRow.cells[0].value = 'Product Id';
+    headerRow.cells[0].value = 'Rent Id';
     headerRow.cells[0].stringFormat.alignment = PdfTextAlignment.center;
-    headerRow.cells[1].value = 'Product Name';
+    headerRow.cells[1].value = 'Service Name';
     headerRow.cells[2].value = 'Price';
     headerRow.cells[3].value = 'Quantity';
     headerRow.cells[4].value = 'Total';

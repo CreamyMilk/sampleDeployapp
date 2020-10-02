@@ -97,7 +97,8 @@ class _IssuesCardState extends State<IssuesCard> {
                 alignment: Alignment.bottomRight,
                 padding: EdgeInsets.all(5.0),
                 child: MaterialButton(
-                  color: _testvar ? Colors.black : Colors.grey,
+                  color:
+                      _testvar ? Theme.of(context).primaryColor : Colors.grey,
                   child: Row(
                     children: [
                       Text("Report !", style: TextStyle(color: Colors.white)),

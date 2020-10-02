@@ -62,13 +62,15 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Theme.of(context).primaryColor,
           actions: [
             IconButton(
                 icon: Icon(Icons.exit_to_app),
                 onPressed: () async {
                   final prefs = await SharedPreferences.getInstance();
-                  prefs.setString("user_token", "").then((bool success) {
+                  prefs
+                      .setString("user_token", "loggedout")
+                      .then((bool success) {
                     if (success) {
                       Navigator.push(
                         context,
@@ -84,7 +86,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.black,
+            backgroundColor: Theme.of(context).primaryColor,
             child: Icon(
               Icons.add,
               color: Colors.white,
