@@ -24,7 +24,6 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
   ByteData signData;
   @override
   void initState() {
-    // TODO: implement initState
     rootBundle
         .load('assets/sign.png')
         .then((data) => setState(() => this.signData = data));
