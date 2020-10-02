@@ -9,6 +9,7 @@ import 'package:sampledeployapp/views/issues_card.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
 import 'package:sampledeployapp/views/rent_card.dart';
 import 'package:sampledeployapp/views/services_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:sampledeployapp/widget/options_carosel.dart';
 
 class HomeViewCardLayout extends StatefulWidget {
@@ -21,18 +22,14 @@ class HomeViewCardLayout extends StatefulWidget {
 class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   String _username = "Jotham";
 
-  List<String> transactions = [
-    "Transactions",
-    "Joe",
-    "Wick",
-    "Mal",
-    "grown",
-    "1",
-    "ewe",
-    "wewe",
-    "kaku"
-  ];
-  List<String> complains = ["Expenses", "Water", "Painting", "Gas"];
+  Map<String, dynamic> transactions = {
+    'title': "Transactions",
+    'data': ["Joe", "Wick", "Mal", "grown", "1", "ewe", "wewe", "kaku"],
+  };
+  Map<String, dynamic> complains = {
+    'title': "Expenses",
+    'data': ["Water", "Painting", "Gas"]
+  };
   Widget _myAnimatedWidget;
   ScrollController _cardsscrollcontroller;
   bool fadeswitch;
@@ -65,6 +62,21 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: Colors.black,
+          actions: [
+            IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setString("user_token", "").then((bool success) {
+                    if (success) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
+                      );
+                    }
+                  });
+                })
+          ],
           leading: Icon(
             Icons.atm,
             color: Colors.white,
@@ -163,7 +175,7 @@ class CardListings extends StatefulWidget {
     @required this.myItems,
   }) : super(key: key);
 
-  final List<String> myItems;
+  final Map<String, dynamic> myItems;
 
   @override
   _CardListingsState createState() => _CardListingsState();
@@ -184,7 +196,7 @@ class _CardListingsState extends State<CardListings> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(
-                widget.myItems[0],
+                widget.myItems['title'],
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w300,
@@ -200,17 +212,17 @@ class _CardListingsState extends State<CardListings> {
             if (newIndex > oldIndex) {
               newIndex -= 1;
             }
-            final item = widget.myItems.removeAt(oldIndex);
-            widget.myItems.insert(newIndex, item);
+            final item = widget.myItems['data'].removeAt(oldIndex);
+            widget.myItems['data'].insert(newIndex, item);
           });
         },
         children: [
-          for (final item in widget.myItems.sublist(1))
+          for (final item in widget.myItems['data'])
             ListTile(
               key: ValueKey(item),
               title: Text(item),
               subtitle: Text("${Timeline.now}"),
-              leading: Icon(Icons.ac_unit),
+              leading: Icon(Icons.attach_money),
               trailing: Text("Ksh.${Random().nextInt(10000).toString()}",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
               focusColor: Colors.red,

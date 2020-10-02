@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sampledeployapp/model/otpconfirmmodel.dart';
 import 'package:sampledeployapp/views/home_cards_layouts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:http/http.dart' as http;
@@ -74,10 +75,17 @@ Future confirmOTP(mobile, code, context) async {
   data = OtpVerify.fromJson(myjson);
   print(data.message);
   if (data.message == 0) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
-    );
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString("user_token", data.message.toString()).then((bool success) {
+      if (success) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
+        );
+      } else {
+        //Show that storage
+      }
+    });
   } else {
     Navigator.push(
       context,

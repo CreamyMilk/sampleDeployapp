@@ -6,7 +6,9 @@ import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:sampledeployapp/views/home_cards_layouts.dart';
 import 'package:sampledeployapp/views/login_otp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MessageHandler extends StatefulWidget {
   @override
@@ -16,7 +18,6 @@ class MessageHandler extends StatefulWidget {
 //Outside any class
 Future<dynamic> myBackgroundHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {
-    // Handle data message
     final dynamic data = message['data'];
     print(data);
   }
@@ -30,6 +31,7 @@ Future<dynamic> myBackgroundHandler(Map<String, dynamic> message) {
 }
 
 class _MessageHandlerState extends State<MessageHandler> {
+  String userToken;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   final FirebaseMessaging _fcm = FirebaseMessaging();
@@ -39,7 +41,10 @@ class _MessageHandlerState extends State<MessageHandler> {
   }
 
   @override
-  void initState() {
+  void initState() async {
+    final prefs = await SharedPreferences.getInstance();
+    userToken = prefs.getString('user_token') ?? "";
+
     var initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     //Localnotification
@@ -97,7 +102,7 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   @override
   Widget build(BuildContext context) {
-    return LoginOTP();
+    return userToken == "" ? LoginOTP() : HomeViewCardLayout();
   }
 
   //LocalNotification
