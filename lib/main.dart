@@ -16,12 +16,12 @@ class MyApp extends StatelessWidget {
         title: appTitle,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.blue,
-          accentColor: Colors.blueAccent,
+          primaryColor: Colors.lightBlue,
+          accentColor: Colors.lightBlueAccent,
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
         darkTheme: ThemeData(
-          primaryColor: Colors.blue,
+          primaryColor: Colors.lightBlue,
           accentColor: Colors.blueAccent,
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
