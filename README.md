@@ -21,7 +21,7 @@ Services to be created
   We can used Token based auth where when user need data they just send a get request matchingg what they need JWT
   On next login if you have a token just get user details and skip login
   If not login
-  
+- Report Generation
 
 Show Snack Bar on notification 
 

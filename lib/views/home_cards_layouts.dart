@@ -9,6 +9,7 @@ import 'package:sampledeployapp/views/issues_card.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
 import 'package:sampledeployapp/views/rent_card.dart';
 import 'package:sampledeployapp/views/services_card.dart';
+import 'package:sampledeployapp/widget/pdf_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:sampledeployapp/widget/options_carosel.dart';
 
@@ -218,15 +219,20 @@ class _CardListingsState extends State<CardListings> {
         },
         children: [
           for (final item in widget.myItems['data'])
-            ListTile(
+            ExpansionTile(
               key: ValueKey(item),
               title: Text(item),
               subtitle: Text("${Timeline.now}"),
               leading: Icon(Icons.attach_money),
               trailing: Text("Ksh.${Random().nextInt(10000).toString()}",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              focusColor: Colors.red,
-              onTap: () {},
+              children: [
+                Row(
+                  children: [
+                    CreatePdfStatefulWidget(),
+                  ],
+                )
+              ],
             ),
         ],
       ),
