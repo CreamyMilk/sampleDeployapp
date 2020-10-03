@@ -22,6 +22,7 @@ Services to be created
   On next login if you have a token just get user details and skip login
   If not login
 - Report Generation
+- Google maps marker shifter
 
 Show Snack Bar on notification 
 

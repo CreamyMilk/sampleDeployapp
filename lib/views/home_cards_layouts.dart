@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:sampledeployapp/services/geolocation_service.dart';
 import 'package:sampledeployapp/views/issues_card.dart';
+import 'package:sampledeployapp/views/login_otp.dart';
 //import 'package:sampledeployapp/views/payments_selections.dart';
 import 'package:sampledeployapp/views/rent_card.dart';
 import 'package:sampledeployapp/views/services_card.dart';
@@ -74,7 +75,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     if (success) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
+                        MaterialPageRoute(builder: (c) => LoginOTP()),
                       );
                     }
                   });
