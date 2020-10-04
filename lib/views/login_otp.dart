@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:sampledeployapp/model/otpresponse.dart';
@@ -20,6 +21,7 @@ class _LoginOTPState extends State<LoginOTP> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightGreen,
       body: Center(
         child: AnimatedContainer(
           duration: Duration(seconds: 3),
@@ -90,10 +92,8 @@ class _LoginOTPState extends State<LoginOTP> {
                     if (term) {
                       final appsignature = await SmsAutoFill().getAppSignature;
                       getOTP(_testcontroller.text, appsignature);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (c) => OtpReceiver()),
-                      );
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (c) => OtpReceiver(),settings: ));
                     } else {
                       print("snack");
                     }
