@@ -93,7 +93,7 @@ class _LoginOTPState extends State<LoginOTP> {
                       final appsignature = await SmsAutoFill().getAppSignature;
                       getOTP(_testcontroller.text, appsignature);
                       Navigator.push(context,
-                          CupertinoPageRoute(builder: (c) => OtpReceiver(),settings: ));
+                          CupertinoPageRoute(builder: (c) => OtpReceiver()));
                     } else {
                       print("snack");
                     }

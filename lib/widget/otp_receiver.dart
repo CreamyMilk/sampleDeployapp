@@ -78,10 +78,13 @@ Future confirmOTP(mobile, code, context) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
-        );
+        Navigator.of(context).push(PageRouteBuilder(
+            pageBuilder: (context, animation, secondAnimation) {
+              return HomeViewCardLayout(
+                transitionAnime: animation,
+              );
+            },
+            transitionDuration: const Duration(seconds: 1)));
       } else {
         //Show that storage
       }

@@ -16,7 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:sampledeployapp/widget/options_carosel.dart';
 
 class HomeViewCardLayout extends StatefulWidget {
-  HomeViewCardLayout({Key key}) : super(key: key);
+  HomeViewCardLayout({Key key, this.transitionAnime}) : super(key: key);
+  final Animation<double> transitionAnime;
 
   @override
   _HomeViewCardLayoutState createState() => _HomeViewCardLayoutState();
@@ -36,11 +37,6 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   Widget _myAnimatedWidget;
   ScrollController _cardsscrollcontroller;
   bool fadeswitch;
-  _onUpdateScroll(ScrollMetrics metrics) {
-    //print((metrics.pixels / 340.00).round());
-
-    //setState(() {});
-  }
 
   @override
   void initState() {
@@ -115,37 +111,25 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                   margin: EdgeInsets.all(16.0),
                   //color: Colors.red[50],
                   height: 300, //Cards Height
-                  child: NotificationListener<ScrollNotification>(
-                    onNotification: (scrollNotification) {
-                      if (scrollNotification is ScrollStartNotification) {
-                        //print(scrollNotification.metrics);
-                      } else if (scrollNotification
-                          is ScrollUpdateNotification) {
-                        _onUpdateScroll(scrollNotification.metrics);
-                      } else if (scrollNotification is ScrollEndNotification) {
-                        //print(scrollNotification.metrics);
-                      }
-                      return;
-                    },
-                    child: ListView(
-                      controller: _cardsscrollcontroller,
-                      padding: EdgeInsets.all(4.0),
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        PageCard(
-                          childwidget: RentPaymentCard(),
-                        ),
-                        SizedBox(width: 10),
-                        PageCard(
-                          childwidget: IssuesCard(),
-                        ),
-                        SizedBox(width: 10),
-                        PageCard(
-                          childwidget: ServiceCard(),
-                        ),
-                        SizedBox(width: 20),
-                      ],
-                    ),
+
+                  child: ListView(
+                    controller: _cardsscrollcontroller,
+                    padding: EdgeInsets.all(4.0),
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      PageCard(
+                        childwidget: RentPaymentCard(),
+                      ),
+                      SizedBox(width: 10),
+                      PageCard(
+                        childwidget: IssuesCard(),
+                      ),
+                      SizedBox(width: 10),
+                      PageCard(
+                        childwidget: ServiceCard(),
+                      ),
+                      SizedBox(width: 20),
+                    ],
                   ),
                 ),
                 Container(
