@@ -54,6 +54,7 @@ class _MessageHandlerState extends State<MessageHandler> {
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: selectLocalNotificationAction);
     super.initState();
+
     //Ios Setup
     if (Platform.isIOS) {
       _fcm.requestNotificationPermissions(
@@ -100,7 +101,10 @@ class _MessageHandlerState extends State<MessageHandler> {
   @override
   Widget build(BuildContext context) {
     _getStartUpPage(context);
-    return Container(child: null);
+    return Container(
+      color: Colors.yellow,
+      child: null,
+    );
   }
 
   //LocalNotification
@@ -159,13 +163,15 @@ _getStartUpPage(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
   final userToken = prefs.getString('user_token') ?? "";
   print("UserToken ilikuwa $userToken");
-  userToken == "0"
-      ? Navigator.push(
-          context,
-          MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
-        )
-      : Navigator.push(
-          context,
-          MaterialPageRoute(builder: (c) => LoginOTP()),
-        );
+  Future.delayed(Duration(seconds: 5), () {
+    userToken == "0"
+        ? Navigator.push(
+            context,
+            MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
+          )
+        : Navigator.push(
+            context,
+            MaterialPageRoute(builder: (c) => LoginOTP()),
+          );
+  });
 }

@@ -34,12 +34,6 @@ class MapSampleState extends State<MapSample> {
       ..addListener(_onScroll);
   }
 
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.0000, -7.7000),
-      tilt: 59.4407176000097143555,
-      zoom: 19.151926040649414);
-
   void _onScroll() {
     if (_pageController.page.toInt() != prevPage) {
       prevPage = _pageController.page.toInt();
@@ -65,72 +59,78 @@ class MapSampleState extends State<MapSample> {
         );
       },
       child: InkWell(
-          onTap: () {
-            //moveCamera();
-          },
-          child: Stack(children: [
+        onTap: () {
+          //moveCamera();
+        },
+        child: Stack(
+          children: [
             Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10.0,
+                  vertical: 20.0,
+                ),
+                height: 150.0,
+                width: MediaQuery.of(context).size.width * 0.7,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black54,
+                        offset: Offset(0.0, 4.0),
+                        blurRadius: 10.0,
+                      ),
+                    ]),
                 child: Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 20.0,
-                    ),
-                    height: 150.0,
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black54,
-                            offset: Offset(0.0, 4.0),
-                            blurRadius: 10.0,
-                          ),
-                        ]),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            color: Colors.white),
-                        child: Row(children: [
-                          Container(
-                              height: 90.0,
-                              width: 90.0,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10.0),
-                                      topLeft: Radius.circular(10.0)),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                          coffeeShops[index].thumbNail),
-                                      fit: BoxFit.cover))),
-                          SizedBox(width: 5.0),
-                          Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  coffeeShops[index].shopName,
-                                  style: TextStyle(
-                                      fontSize: 12.5,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  coffeeShops[index].address,
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Container(
-                                  width: 170.0,
-                                  child: Text(
-                                    coffeeShops[index].description,
-                                    style: TextStyle(
-                                        fontSize: 11.0,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                )
-                              ])
-                        ]))))
-          ])),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: Colors.white),
+                  child: Row(
+                    children: [
+                      Container(
+                          height: 90.0,
+                          width: 90.0,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10.0),
+                                  topLeft: Radius.circular(10.0)),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      coffeeShops[index].thumbNail),
+                                  fit: BoxFit.cover))),
+                      SizedBox(width: 5.0),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              coffeeShops[index].shopName,
+                              style: TextStyle(
+                                  fontSize: 12.5, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              coffeeShops[index].address,
+                              style: TextStyle(
+                                  fontSize: 12.0, fontWeight: FontWeight.w600),
+                            ),
+                            Container(
+                              width: 170.0,
+                              child: Text(
+                                coffeeShops[index].description,
+                                style: TextStyle(
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            )
+                          ])
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -170,15 +170,21 @@ class MapSampleState extends State<MapSample> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
+        onPressed: () => _goToTheLake(
+            widget.initialPosition.latitude, widget.initialPosition.longitude),
         label: Text('My Location!'),
         icon: Icon(Icons.directions_boat),
       ),
     );
   }
 
-  Future<void> _goToTheLake() async {
+  Future<void> _goToTheLake(double lat, double long) async {
     final GoogleMapController controller = await _controller.future;
+    final CameraPosition _kLake = CameraPosition(
+        bearing: 192.8334901395799,
+        target: LatLng(lat, long),
+        tilt: 59.4407176000097143555,
+        zoom: 19.151926040649414);
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 
