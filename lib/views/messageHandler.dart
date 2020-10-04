@@ -165,10 +165,13 @@ _getStartUpPage(BuildContext context) async {
   print("UserToken ilikuwa $userToken");
   Future.delayed(Duration(seconds: 5), () {
     userToken == "0"
-        ? Navigator.push(
-            context,
-            MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
-          )
+        ? Navigator.of(context).push(PageRouteBuilder(
+            pageBuilder: (context, animation, secondAnimation) {
+              return HomeViewCardLayout(
+                transitionAnime: animation,
+              );
+            },
+            transitionDuration: const Duration(seconds: 5)))
         : Navigator.push(
             context,
             MaterialPageRoute(builder: (c) => LoginOTP()),

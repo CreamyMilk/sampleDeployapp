@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:sampledeployapp/providers/mpesaTransPorvider.dart';
+import 'package:sampledeployapp/route_generator.dart';
 import 'package:sampledeployapp/services/geolocation_service.dart';
 //import 'package:sampledeployapp/views/login_otp.dart';
-import 'package:sampledeployapp/views/messageHandler.dart';
+//import 'package:sampledeployapp/views/messageHandler.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,13 +25,15 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.blueAccent,
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
+        onGenerateRoute: RouteGenerator.generateRoute,
+        initialRoute: "/home",
         home: MultiProvider(providers: [
           FutureProvider<Position>(
               create: (context) => geoService.getInitialLocation()),
-          Provider<MpexaProvider>(
-            create: (_) => MpexaProvider(),
-          ),
-        ], child: MessageHandler()
+          // Provider<MpexaProvider>(
+          //   create: (_) => MpexaProvider(),
+          // ),
+        ], child: Container(child: Text("o"))
             //child: MessageHandler(),
             ),
       );

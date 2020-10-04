@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:sampledeployapp/model/otpconfirmmodel.dart';
-import 'package:sampledeployapp/views/home_cards_layouts.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:sms_autofill/sms_autofill.dart';
@@ -28,7 +28,7 @@ class _OtpReceiverState extends State<OtpReceiver> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Enter Recieved pin here"),
+          Text("Enter Received Pin Here"),
           Container(
             padding: EdgeInsets.symmetric(
               horizontal: 50,
@@ -78,22 +78,13 @@ Future confirmOTP(mobile, code, context) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("user_token", data.message.toString()).then((bool success) {
       if (success) {
-        Navigator.of(context).push(PageRouteBuilder(
-            pageBuilder: (context, animation, secondAnimation) {
-              return HomeViewCardLayout(
-                transitionAnime: animation,
-              );
-            },
-            transitionDuration: const Duration(seconds: 1)));
+        Navigator.of(context).pushNamed('/home');
       } else {
         //Show that storage
       }
     });
   } else {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (c) => HomeViewCardLayout()),
-    );
+    Navigator.of(context).pushNamed('/home');
   }
 
   //Navigator.of(context).pop();

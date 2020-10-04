@@ -12,6 +12,7 @@ import 'package:sampledeployapp/views/rent_card.dart';
 import 'package:sampledeployapp/views/services_card.dart';
 import 'package:sampledeployapp/widget/awesome_fab.dart';
 import 'package:sampledeployapp/widget/pdf_button.dart';
+import 'package:sampledeployapp/widget/slidingContainer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:sampledeployapp/widget/options_carosel.dart';
 
@@ -106,36 +107,48 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                   ),
                 ),
                 SizedBox(height: 20.0),
-                Container(
-                  //Slider area
-                  margin: EdgeInsets.all(16.0),
-                  //color: Colors.red[50],
-                  height: 300, //Cards Height
-
-                  child: ListView(
-                    controller: _cardsscrollcontroller,
-                    padding: EdgeInsets.all(4.0),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      PageCard(
-                        childwidget: RentPaymentCard(),
-                      ),
-                      SizedBox(width: 10),
-                      PageCard(
-                        childwidget: IssuesCard(),
-                      ),
-                      SizedBox(width: 10),
-                      PageCard(
-                        childwidget: ServiceCard(),
-                      ),
-                      SizedBox(width: 20),
-                    ],
+                //Slider area
+                SlidingContainer(
+                  initialOffsetX: 5,
+                  intervalStart: 0,
+                  intervalEnd: 0.5,
+                  childs: Container(
+                    margin: EdgeInsets.all(16.0),
+                    //color: Colors.red[50],
+                    height: 300, //Cards Height
+                    child: ListView(
+                      controller: _cardsscrollcontroller,
+                      padding: EdgeInsets.all(4.0),
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        PageCard(
+                          childwidget: RentPaymentCard(),
+                        ),
+                        SizedBox(width: 10),
+                        PageCard(
+                          childwidget: IssuesCard(),
+                        ),
+                        SizedBox(width: 10),
+                        PageCard(
+                          childwidget: ServiceCard(),
+                        ),
+                        SizedBox(width: 20),
+                      ],
+                    ),
                   ),
                 ),
-                Container(
+
+                //Bottom Listing
+                SlidingContainer(
+                  initialOffsetX: -1,
+                  intervalStart: 0.5,
+                  intervalEnd: 1,
+                  childs: Container(
                     child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 500),
-                        child: _myAnimatedWidget))
+                        child: _myAnimatedWidget),
+                  ),
+                ),
               ],
             ),
           ),
