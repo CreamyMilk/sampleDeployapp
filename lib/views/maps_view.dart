@@ -26,6 +26,8 @@ class MapSampleState extends State<MapSample> {
       allMarkers.add(Marker(
           markerId: MarkerId(element.shopName),
           draggable: false,
+          onTap: () => _pageController.animateToPage(element.rank - 1,
+              duration: Duration(microseconds: 500), curve: Curves.decelerate),
           infoWindow:
               InfoWindow(title: element.shopName, snippet: element.address),
           position: element.locationCoords));
