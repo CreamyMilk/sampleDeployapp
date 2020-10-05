@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
-import 'package:sampledeployapp/archive/users_data.dart';
 import 'package:sampledeployapp/widget/payments_selections.dart';
 
 class RentPaymentCard extends StatefulWidget {
@@ -93,16 +92,7 @@ class _RentPaymentCardState extends State<RentPaymentCard> {
                   ),
                   onPressed: () {
                     _settingModalBottomSheet(context);
-                    // showDialog(
-                    //   //Text(message['notification']['title']
-                    //   context: context,
-                    //   builder: (context) => AlertDialog(
-                    //       title: Text("Payment intent sent "),
-                    //       content: Text("\n to 0797678252")),
-                    // );
-                    // setState(() {
-                    //   _testvar = !_testvar;
-                    // });                alignment: Alignment.bottomCenter,
+
                     print("STK push sent");
                   },
                 ),
@@ -140,7 +130,8 @@ void _settingModalBottomSheet(context) {
                       Icon(Icons.arrow_downward),
                       Text(
                         "Rent Payment",
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 20),
                       ),
                       SizedBox()
                     ],
@@ -150,38 +141,40 @@ void _settingModalBottomSheet(context) {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Amount in Ksh",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      "Amount:",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                   ),
-                  TextField(
-                      controller: _amountcontroller,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        prefixText: "",
-                        hintText: "Enter Amount",
-                      )),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "20,000",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w100, fontSize: 25),
+                    ),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Select payment method",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      "Select Payment Method",
+                      style: TextStyle(fontWeight: FontWeight.w800),
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 5,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       PaymentTile(),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      PaymentTile(),
+                      // SizedBox(
+                      //   width: 10,
+                      // ),
+                      // PaymentTile(),
                     ],
                   ),
                   SizedBox(
@@ -191,15 +184,18 @@ void _settingModalBottomSheet(context) {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Running low on Cash?",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
                   ),
                   SelectContactField(),
+                  SizedBox(height: 10),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
                       child: MaterialButton(
-                        minWidth: MediaQuery.of(context).size.width * .90,
+                        height: 40,
+                        minWidth: MediaQuery.of(context).size.width * .95,
                         onPressed: () {
                           print("sdsdfdsf");
                           Navigator.of(context).pop();
@@ -223,10 +219,7 @@ void _settingModalBottomSheet(context) {
 
 void choiceAction(String choice) {
   print(choice);
-  Navigator.push(
-    null,
-    MaterialPageRoute(builder: (_) => UserTest(appTitle: "ok")),
-  );
+  Navigator.of(null).pushNamed('/randomUser');
 }
 
 class SelectContactField extends StatefulWidget {
@@ -249,6 +242,7 @@ class _SelectContactFieldState extends State<SelectContactField> {
       },
       controller: _testcontroller,
       decoration: InputDecoration(
+        isDense: true,
         suffixIcon: IconButton(
           icon: Icon(Icons.perm_contact_calendar),
           onPressed: () async {

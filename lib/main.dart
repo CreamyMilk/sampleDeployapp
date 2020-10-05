@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 import 'package:sampledeployapp/route_generator.dart';
 import 'package:sampledeployapp/services/geolocation_service.dart';
-//import 'package:sampledeployapp/views/login_otp.dart';
-//import 'package:sampledeployapp/views/messageHandler.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   final String appTitle = 'Firebase messaging';
@@ -21,20 +24,11 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
         darkTheme: ThemeData(
-          primaryColor: Colors.lightBlue,
-          accentColor: Colors.blueAccent,
+          primaryColor: Colors.black,
+          accentColor: Colors.black38,
           scaffoldBackgroundColor: Color(0xFFF3F5F7),
         ),
         onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: "/home",
-        home: MultiProvider(providers: [
-          FutureProvider<Position>(
-              create: (context) => geoService.getInitialLocation()),
-          // Provider<MpexaProvider>(
-          //   create: (_) => MpexaProvider(),
-          // ),
-        ], child: Container(child: Text("o"))
-            //child: MessageHandler(),
-            ),
+        initialRoute: '/',
       );
 }

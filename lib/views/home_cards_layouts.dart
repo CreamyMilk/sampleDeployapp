@@ -6,15 +6,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:sampledeployapp/services/geolocation_service.dart';
 import 'package:sampledeployapp/views/issues_card.dart';
-import 'package:sampledeployapp/views/login_otp.dart';
-//import 'package:sampledeployapp/views/payments_selections.dart';
 import 'package:sampledeployapp/views/rent_card.dart';
 import 'package:sampledeployapp/views/services_card.dart';
 import 'package:sampledeployapp/widget/awesome_fab.dart';
 import 'package:sampledeployapp/widget/pdf_button.dart';
 import 'package:sampledeployapp/widget/slidingContainer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//import 'package:sampledeployapp/widget/options_carosel.dart';
 
 class HomeViewCardLayout extends StatefulWidget {
   HomeViewCardLayout({Key key, this.transitionAnime}) : super(key: key);
@@ -43,7 +40,6 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
   void initState() {
     super.initState();
     fadeswitch = true;
-    _cardsscrollcontroller = ScrollController();
     _myAnimatedWidget = CardListings(
       myItems: transactions,
       key: ValueKey(1),
@@ -56,36 +52,40 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
     return MultiProvider(
       providers: [
         FutureProvider<Position>(
-            create: (context) => geoService.getInitialLocation()),
+          create: (context) => geoService.getInitialLocation(),
+        ),
       ],
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            actions: [
-              IconButton(
-                  icon: Icon(Icons.exit_to_app),
-                  onPressed: () async {
-                    final prefs = await SharedPreferences.getInstance();
-                    prefs
-                        .setString("user_token", "loggedout")
-                        .then((bool success) {
-                      if (success) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (c) => LoginOTP()),
-                        );
-                      }
-                    });
-                  })
-            ],
-            leading: Icon(
-              Icons.atm,
-              color: Colors.white,
-            ),
-          ),
+              backgroundColor: Theme.of(context).primaryColor,
+              actions: [
+                IconButton(
+                    icon: Icon(
+                      Icons.exit_to_app,
+                      color: Colors.white,
+                    ),
+                    onPressed: () async {
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs
+                          .setString("user_token", "Loggedut")
+                          .then((bool success) {
+                        if (success) {
+                          Navigator.of(context).pushNamed('/login');
+                        }
+                      });
+                    })
+              ],
+              leading: IconButton(
+                icon: Icon(Icons.account_circle),
+                color: Colors.white,
+                onPressed: () {
+                  print(
+                      'Card should be the percenage ${300 / MediaQuery.of(context).size.height}% while Listings${400 / MediaQuery.of(context).size.height}%');
+                },
+              )),
           //floatingActionButton: OlfFAB(cardsscrollcontroller: _cardsscrollcontroller, fadeswitch: fadeswitch, complains: complains, transactions: transactions),
           floatingActionButton: AwesomeFAB(),
           body: SafeArea(
@@ -106,7 +106,7 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: 10.0),
                 //Slider area
                 SlidingContainer(
                   initialOffsetX: 5,
@@ -115,7 +115,8 @@ class _HomeViewCardLayoutState extends State<HomeViewCardLayout> {
                   childs: Container(
                     margin: EdgeInsets.all(16.0),
                     //color: Colors.red[50],
-                    height: 300, //Cards Height
+                    height: MediaQuery.of(context).size.height *
+                        0.3415941154086502, //Cards Height
                     child: ListView(
                       controller: _cardsscrollcontroller,
                       padding: EdgeInsets.all(4.0),
@@ -175,7 +176,8 @@ class _CardListingsState extends State<CardListings> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white38,
-      height: 400,
+      //Bottom Listing size 400
+      height: MediaQuery.of(context).size.height * 0.4554588205448669,
       child: ReorderableListView(
         header: Row(
           children: [
@@ -211,7 +213,7 @@ class _CardListingsState extends State<CardListings> {
               key: ValueKey(item),
               title: Text(item),
               subtitle: Text("${Timeline.now}"),
-              leading: Icon(Icons.attach_money),
+              leading: Icon(Icons.album),
               trailing: Text("Ksh.${Random().nextInt(10000).toString()}",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
               children: [

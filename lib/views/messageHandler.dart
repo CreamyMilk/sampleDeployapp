@@ -6,13 +6,12 @@ import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:sampledeployapp/views/home_cards_layouts.dart';
-import 'package:sampledeployapp/views/login_otp.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MessageHandler extends StatefulWidget {
+class MyMessageHandler extends StatefulWidget {
   @override
-  _MessageHandlerState createState() => _MessageHandlerState();
+  _MyMessageHandlerState createState() => _MyMessageHandlerState();
 }
 
 //Outside any class
@@ -27,10 +26,10 @@ Future<dynamic> myBackgroundHandler(Map<String, dynamic> message) {
     final dynamic notification = message['notification'];
     print(notification);
   }
-  return _MessageHandlerState()._showNotification(message);
+  return _MyMessageHandlerState()._showNotification(message);
 }
 
-class _MessageHandlerState extends State<MessageHandler> {
+class _MyMessageHandlerState extends State<MyMessageHandler> {
   String userToken;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -103,7 +102,7 @@ class _MessageHandlerState extends State<MessageHandler> {
     _getStartUpPage(context);
     return Container(
       color: Colors.yellow,
-      child: null,
+      child: Center(child: LinearProgressIndicator()),
     );
   }
 
@@ -165,16 +164,7 @@ _getStartUpPage(BuildContext context) async {
   print("UserToken ilikuwa $userToken");
   Future.delayed(Duration(seconds: 5), () {
     userToken == "0"
-        ? Navigator.of(context).push(PageRouteBuilder(
-            pageBuilder: (context, animation, secondAnimation) {
-              return HomeViewCardLayout(
-                transitionAnime: animation,
-              );
-            },
-            transitionDuration: const Duration(seconds: 5)))
-        : Navigator.push(
-            context,
-            MaterialPageRoute(builder: (c) => LoginOTP()),
-          );
+        ? Navigator.of(context).pushNamed('/home')
+        : Navigator.of(context).pushNamed('/login');
   });
 }

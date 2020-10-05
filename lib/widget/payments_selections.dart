@@ -22,14 +22,14 @@ class PaymentTile extends StatefulWidget {
 }
 
 class _PaymentTileState extends State<PaymentTile> {
-  bool _enabled = false;
+  bool _enabled = true;
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         MaterialButton(
-          minWidth: 35,
-          height: 40,
+          minWidth: 25,
+          height: 30,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
               side: _enabled
@@ -72,8 +72,8 @@ class _PaymentTileState extends State<PaymentTile> {
                     0,
                   ]),
             child: Container(
-              width: 50,
-              height: 40,
+              width: 45,
+              height: 35,
               child: Image.asset(
                 'assets/mpesa.png',
                 fit: BoxFit.scaleDown,

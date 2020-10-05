@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:sampledeployapp/archive/users_data.dart';
+import 'package:sampledeployapp/services/geolocation_service.dart';
 import 'package:sampledeployapp/views/home_cards_layouts.dart';
+import 'package:sampledeployapp/views/login_otp.dart';
 
 import 'package:sampledeployapp/views/messageHandler.dart';
 
+final GeolocatorService geoService = GeolocatorService();
+
 class RouteGenerator {
+  static get geoService => null;
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while calling Navigator.pushNamed
     //final args = settings.arguments;
 
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => MessageHandler());
+        return MaterialPageRoute(builder: (_) => StartUpScreenProvider());
+      case '/randomUser':
+        return MaterialPageRoute(
+            builder: (_) => UserTest(
+                  appTitle: 'ok',
+                ));
+      case '/login':
+        return MaterialPageRoute(builder: (_) => LoginOTP());
       case '/home':
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondAnimation) {
@@ -41,5 +56,20 @@ class RouteGenerator {
         ),
       );
     });
+  }
+}
+
+class StartUpScreenProvider extends StatelessWidget {
+  const StartUpScreenProvider({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+      FutureProvider<Position>(
+          create: (context) => geoService.getInitialLocation()),
+      // Provider<MpexaProvider>(
+      //   create: (_) => MpexaProvider(),
+      // ),
+    ], child: MyMessageHandler());
   }
 }
