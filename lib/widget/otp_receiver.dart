@@ -25,6 +25,11 @@ class _OtpReceiverState extends State<OtpReceiver> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

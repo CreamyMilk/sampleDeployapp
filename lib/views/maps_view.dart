@@ -7,8 +7,11 @@ import 'package:sampledeployapp/model/cofee_model.dart';
 
 class MapSample extends StatefulWidget {
   final Position initialPosition;
+  MapSample({
+    Key key,
+    @required this.initialPosition,
+  }) : super(key: key);
 
-  MapSample(this.initialPosition);
   @override
   State<MapSample> createState() => MapSampleState();
 }

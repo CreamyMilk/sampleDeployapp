@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:sampledeployapp/archive/users_data.dart';
-import 'package:sampledeployapp/views/maps_view.dart';
 
 class ServiceCard extends StatefulWidget {
   ServiceCard({Key key}) : super(key: key);
@@ -133,10 +132,7 @@ class _ServiceCardState extends State<ServiceCard> {
   void navigateToMap(BuildContext context, Position pos) {
     print("Going to map");
     if (pos != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => MapSample(pos)),
-      );
+      Navigator.of(context).pushNamed('/map', arguments: pos);
     } else {
       Scaffold.of(context)
           .showSnackBar(SnackBar(content: Text("Turn on location service")));
