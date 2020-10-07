@@ -102,7 +102,7 @@ class _MyMessageHandlerState extends State<MyMessageHandler> {
     _getStartUpPage(context);
     return Container(
       color: Colors.yellow,
-      child: Center(child: LinearProgressIndicator()),
+      child: Center(child: CircularProgressIndicator()),
     );
   }
 

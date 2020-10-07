@@ -6,12 +6,13 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:sampledeployapp/model/otpresponse.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:sampledeployapp/providers/startup_view_model.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+//import 'package:sms_autofill/sms_autofill.dart';
 
-String otpNumber;
-
-final _pageController = PageController(initialPage: 1);
+//String otpNumber;
 
 class LoginOTP extends StatefulWidget {
   LoginOTP({Key key}) : super(key: key);
@@ -31,80 +32,56 @@ class _LoginOTPState extends State<LoginOTP> {
 
   @override
   Widget build(BuildContext context) {
+    //Cool provider importing
+    // final ThreeButtonBloc threeButtonBloc =
+    //     Provider.of<ThreeButtonBloc>(context);
     return WillPopScope(
       onWillPop: () async => false,
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        floatingActionButton: Visibility(
-          visible: false,
-          child: FloatingActionButton.extended(
-              tooltip: "Recieve OTP FROM SERVER",
-              backgroundColor: Colors.green,
-              onPressed: () async {
-                //send post request here
-                final appsignature = await SmsAutoFill().getAppSignature;
-                //todo add loading
-                if (otpNumber.length > 9) {
-                  await getOTP(otpNumber, appsignature);
-                  Navigator.of(context).pushNamed('/otprec');
-                }
-              },
-              label: Text("Get OTP"),
-              icon: Icon(Icons.phone)),
-        ),
-        appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(
-                Icons.notifications,
-                color: Colors.white,
-              ),
-              onPressed: () {}),
-          title: Center(
-            child: Row(children: [
-              Spacer(),
-              Text("ICRIB\nAgency",
-                  style: TextStyle(fontWeight: FontWeight.w500)),
-              Icon(
-                Icons.tag_faces,
-                color: Colors.white,
-                size: 40,
-              ),
-              Spacer()
-            ]),
-          ),
-          actions: [
-            IconButton(
+      child: MultiProvider(
+        providers: [],
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            leading: IconButton(
                 icon: Icon(
-                  Icons.settings,
+                  Icons.notifications,
                   color: Colors.white,
                 ),
-                onPressed: () {})
-          ],
-        ),
-        body: PageView(
-          controller: _pageController,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(height: 210),
-                AnimatedSwitcher(
-                  duration: Duration(seconds: 1),
-                  child: _myAnimatedWidget,
+                onPressed: () {}),
+            title: Center(
+              child: Row(children: [
+                Spacer(),
+                Text("ICRIB\nAgency",
+                    style: TextStyle(fontWeight: FontWeight.w500)),
+                Icon(
+                  Icons.tag_faces,
+                  color: Colors.white,
+                  size: 40,
                 ),
-                Spacer(flex: 2),
-                _ThreeBButtons(),
-              ],
+                Spacer()
+              ]),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(height: 210),
-                PhoneNumberForm(),
-                Spacer(flex: 2),
-              ],
-            ),
-          ],
+            actions: [
+              IconButton(
+                  icon: Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {})
+            ],
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(height: 210),
+              AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                child: _myAnimatedWidget,
+              ),
+              Spacer(flex: 2),
+              _ThreeBButtons(),
+            ],
+          ),
         ),
       ),
     );
@@ -118,6 +95,7 @@ class _ThreeBButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //double pageHeight = MediaQuery.of(context).size.height;
     return Consumer<Position>(builder: (context, position, child) {
       return Align(
         alignment: Alignment.bottomCenter,
@@ -127,11 +105,22 @@ class _ThreeBButtons extends StatelessWidget {
             SizedBox(width: 10),
             Expanded(
               flex: 2,
-              child: Container(
-                  height: 200,
-                  color: Colors.orangeAccent,
-                  child: Text("See\n House Listings",
-                      style: TextStyle(fontSize: 30))),
+              child: GestureDetector(
+                onTap: () {},
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: BorderSide(width: 4.5, color: Colors.green),
+                        ),
+                      ),
+                      height: 180,
+                      child: Text("See \nHouse Listings",
+                          style: TextStyle(fontSize: 20))),
+                ),
+              ),
             ),
             SizedBox(width: 5),
             Expanded(
@@ -150,7 +139,7 @@ class _ThreeBButtons extends StatelessWidget {
                     },
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      height: 200,
+                      height: 180,
                       color: Colors.black,
                       child: LayoutBuilder(builder: (context, constraints) {
                         return ClipRRect(
@@ -160,10 +149,10 @@ class _ThreeBButtons extends StatelessWidget {
                               color: Colors.grey,
                               border: Border(
                                 bottom:
-                                    BorderSide(width: 3.0, color: Colors.white),
+                                    BorderSide(width: 4.5, color: Colors.white),
                               ),
                             ),
-                            height: 100,
+                            height: 90,
                             width: constraints.maxWidth,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -173,11 +162,13 @@ class _ThreeBButtons extends StatelessWidget {
                                   size: constraints.maxWidth / 2.5,
                                   color: Colors.white,
                                 ),
-                                Text("Service\nMap",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ))
+                                Text(
+                                  "Service\nMap",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -195,7 +186,7 @@ class _ThreeBButtons extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.bottomCenter,
-                    height: 200,
+                    height: 180,
                     color: Colors.black,
                     child: LayoutBuilder(builder: (context, constraints) {
                       return ClipRRect(
@@ -205,10 +196,10 @@ class _ThreeBButtons extends StatelessWidget {
                             color: Colors.grey,
                             border: Border(
                               bottom:
-                                  BorderSide(width: 3.0, color: Colors.white),
+                                  BorderSide(width: 4.5, color: Colors.white),
                             ),
                           ),
-                          height: 100,
+                          height: 90,
                           width: constraints.maxWidth,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -269,7 +260,9 @@ class _Logincard extends StatelessWidget {
           ),
           padding: EdgeInsets.all(20.0),
           onPressed: () {
-            Navigator.of(context).pushNamed('/otprec');
+            showMyDialog(context);
+
+            //Navigator.of(context).pushNamed('/otprec');
           },
           color: Colors.green,
           child: Row(
@@ -306,48 +299,142 @@ class _PhoneNumberFormState extends State<PhoneNumberForm> {
   String mobile = "";
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(children: [
-        Container(
-          color: Colors.white,
-          width: MediaQuery.of(context).size.width * 0.8,
-          padding: EdgeInsets.symmetric(
-            horizontal: 50,
-            vertical: 10,
-          ),
-          child: TextField(
-            cursorColor: Colors.white,
-            onChanged: (value) {
-              print(value);
-              setState(() {
-                otpNumber = value;
-                mobile = value;
-              });
-            },
-            controller: _testcontroller,
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                icon: Icon(Icons.perm_contact_calendar),
-                onPressed: () async {
-                  final PhoneContact contact =
-                      await FlutterContactPicker.pickPhoneContact();
-                  setState(() {
-                    _testcontroller.text = contact.phoneNumber.number;
-                    mobile = contact.phoneNumber.number;
-                    otpNumber = mobile;
-                  });
-                },
-              ),
-              hintText: 'PhoneNumber',
-              errorText: validatePassword(_testcontroller.text),
-              prefixText: "",
-            ),
-            keyboardType: TextInputType.numberWithOptions(),
-          ),
+    return TextField(
+      cursorColor: Colors.green,
+      onChanged: (value) {
+        print(value);
+        setState(() {
+          mobile = value;
+        });
+      },
+      controller: _testcontroller,
+      decoration: InputDecoration(
+        suffixIcon: IconButton(
+          icon: Icon(Icons.perm_contact_calendar),
+          onPressed: () async {
+            final PhoneContact contact =
+                await FlutterContactPicker.pickPhoneContact();
+            setState(() {
+              _testcontroller.text = contact.phoneNumber.number;
+              mobile = contact.phoneNumber.number;
+            });
+          },
         ),
-      ]),
+        hintText: 'PhoneNumber',
+        errorText: validatePassword(_testcontroller.text),
+        prefixText: "",
+      ),
+      keyboardType: TextInputType.numberWithOptions(),
     );
   }
+
+  String validatePassword(String value) {
+    if (!(value.length > 9) && value.isNotEmpty) {
+      return "Mobile number should be in the format 2547xx";
+    }
+    return null;
+  }
+
+  void showSnack(context) {}
+}
+
+Future<void> showMyDialog(BuildContext context) async {
+  String mobile = "";
+
+  TextEditingController _mytextcontroller;
+  //_mytextcontroller.text = '';
+  return showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: 100),
+        child: AlertDialog(
+          title: Icon(Icons.phone),
+          content: Container(
+            height: 200,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Please enter the number provided during house registration.',
+                  textAlign: TextAlign.center,
+                ),
+                Divider(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(flex: 2),
+                    Column(
+                      children: [
+                        Container(color: Colors.transparent, child: Text(" ")),
+                        Container(child: Text("+254")),
+                      ],
+                    ),
+                    Spacer(flex: 2),
+                    Expanded(
+                      flex: 20,
+                      child: TextField(
+                        controller: _mytextcontroller,
+                        showCursor: true,
+                        autofocus: true,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'Phone Number',
+                        ),
+                        onChanged: (value) {
+                          mobile = value;
+                          print(mobile);
+                        },
+                      ),
+                    ),
+                    Spacer(flex: 1),
+                  ],
+                ),
+                SizedBox(height: 30),
+                Spacer(),
+                Text(
+                  "By choosing to proceed, you agree to the following terms of service",
+                  style: TextStyle(color: Colors.black54, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+                Text("https://www.i-crib.co.ke/terms",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 12,
+                    ))
+              ],
+            ),
+          ), //SingleChildScrollView(
+
+          actions: <Widget>[
+            MaterialButton(
+              child: Text('CANCEL'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            MaterialButton(
+              child: Text('PROCCED'),
+              //getOTP(),
+              onPressed: () async {
+                //send post request here
+                final appsignature = await SmsAutoFill().getAppSignature;
+                //todo add loading
+                if (mobile.length > 9) {
+                  await getOTP(mobile, appsignature);
+                  Navigator.of(context).pushNamed('/otprec');
+                } else {
+                  print("Lenght");
+                }
+              },
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 Future getOTP(mobile, appsign) async {
@@ -374,12 +461,3 @@ Future getOTP(mobile, appsign) async {
     print('Please add number');
   }
 }
-
-String validatePassword(String value) {
-  if (!(value.length > 9) && value.isNotEmpty) {
-    return "Mobile number should be in the format 2547xx";
-  }
-  return null;
-}
-
-void showSnack(context) {}
