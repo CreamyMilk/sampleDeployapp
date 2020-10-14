@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
+////sms_consent: ^0.0.6
 import 'package:flutter/services.dart';
 import 'package:sms_consent/sms_consent.dart';
 
